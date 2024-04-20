@@ -17,7 +17,7 @@ class FlowColor extends Color {
 
   static const backYellow = Color.fromARGB(255, 250, 236, 198);
   static const accentYellow = Color.fromARGB(255, 244, 210, 123);
-  // static const accentYellowDark =
+  static const accentYellowDark = Color(0xffecc148);
 
   static const accentOrange = Color.fromARGB(255, 231, 112, 13);
 

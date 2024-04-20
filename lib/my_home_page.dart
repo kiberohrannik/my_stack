@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:my_stack/styles.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -15,6 +16,11 @@ const String overflowUrl = 'https://stackoverflow.com/';
 const String exchangeUrl = 'https://stackexchange.com/';
 
 class _MyHomePageState extends State<MyHomePage> {
+  InAppWebViewController? webViewController;
+/*  = InAppWebViewController.fromPlatform(
+      platform: PlatformInAppWebViewController.static()
+  );*/
+
   int _counter = 0;
   // bool _overflowSelected = false;
   // bool _exchangeSelected = false;
@@ -31,10 +37,16 @@ class _MyHomePageState extends State<MyHomePage> {
     //   _exchangeSelected = false;
     // });
 
-    var uri = Uri.parse(overflowUrl);
-    if(!await launchUrl(uri)) {
-      throw Exception("Can't open url in browser!");
-    }
+    webViewController?.loadUrl(
+        urlRequest:
+        // URLRequest(url: await webViewController?.getUrl()));
+        URLRequest(url: WebUri.uri(Uri.parse(overflowUrl)))
+    );
+
+    // var uri = Uri.parse(overflowUrl);
+    // if(!await launchUrl(uri)) {
+    //   throw Exception("Can't open url in browser!");
+    // }
   }
 
   void _onStackExchangeTapped() async {
@@ -54,6 +66,18 @@ class _MyHomePageState extends State<MyHomePage> {
     Color backColor = Theme.of(context).colorScheme.inversePrimary;
 
     return Scaffold(
+      body: Expanded(
+        child: Stack(
+          children: [
+            InAppWebView(
+              initialUrlRequest: URLRequest(url: WebUri("https://inappwebview.dev/")),
+              onWebViewCreated: (controller) {
+                webViewController = controller;
+              },
+            )
+          ],
+        ),
+      ),
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
@@ -64,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
           children: [
             const DrawerHeader(
-              decoration: BoxDecoration(color: Color(0xffecc148)), //Color(0xffecc148)
+              decoration: BoxDecoration(color: FlowColor.accentYellowDark), //Color(0xffecc148)
                 child: Text(
               'To explore',
               textAlign: TextAlign.center,

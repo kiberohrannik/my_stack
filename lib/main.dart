@@ -4,6 +4,7 @@ import 'package:my_stack/styles.dart';
 import 'my_home_page.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 

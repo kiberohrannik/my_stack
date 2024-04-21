@@ -39,6 +39,9 @@ dependencies:
   url_launcher: ^6.2.5
   flutter_inappwebview: ^6.0.0
 
+  any_link_preview: ^3.0.2
+  share_handler: ^0.0.21
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

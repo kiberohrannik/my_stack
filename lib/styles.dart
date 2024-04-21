@@ -2,16 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+
 class AppColor extends Color {
 
-  AppColor(super.value);
-
-  static const stYellowAccent = Color(0xFFF9A825);
-}
-
-
-class FlowColor extends Color {
-  FlowColor(int color): super(color);
+  AppColor(super.color);
   
   static const backWhite = Color.fromARGB(255, 249, 250, 250);
 

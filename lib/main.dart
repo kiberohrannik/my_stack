@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_stack/styles.dart';
 
-import 'my_home_page.dart';
+import 'main_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,10 +17,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: FlowColor.accentYellow),
         useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColor.accentYellowDark)
       ),
-      home: const MyHomePage(title: 'My Stack'),
+      home: const MainPage(title: 'My Stack'),
     );
   }
 }

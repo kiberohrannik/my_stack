@@ -83,18 +83,18 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       drawer: Drawer(
-        backgroundColor: FlowColor.backWhite,
+        backgroundColor: AppColor.backWhite,
         child: ListView(
           padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
           children: [
             const DrawerHeader(
-              decoration: BoxDecoration(color: FlowColor.accentYellowDark), //Color(0xffecc148)
+              decoration: BoxDecoration(color: AppColor.accentYellowDark), //Color(0xffecc148)
                 child: Text(
               'To explore',
               textAlign: TextAlign.center,
             )),
             ListTile(
-              splashColor: FlowColor.accentOrange,
+              splashColor: AppColor.accentOrange,
               title: Text('StackOverflow'),
               // selectedTileColor: FlowColor.backYellow,
               onTap: () => _onStackOverflowTapped(),
@@ -102,14 +102,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
             ListTile(
               title: Text('StackExchange'),
-                splashColor: FlowColor.backBlue,
+                splashColor: AppColor.backBlue,
                 onTap: () => _onStackExchangeTapped()
             ),
 
             ListTile(
               title: Text('Timer'),
               leading: Icon(Icons.timer),
-              selectedTileColor: FlowColor.backYellow,
+              selectedTileColor: AppColor.backYellow,
               selected: false,
             )
           ],

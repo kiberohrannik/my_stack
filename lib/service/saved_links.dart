@@ -1,6 +1,11 @@
+import 'package:my_stack/service/saved_link.dart';
+
 abstract class SavedLinkService {
+  List<SavedLink> getAllSaved();
 
-  List<String> getAll();
+  List<SavedLink> getAllArchived();
 
-  void add(String? link);
+  void add(SavedLink? link);
+
+  List<SavedLink> removeById(String id);
 }

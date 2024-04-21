@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_stack/styles.dart';
+import 'package:my_stack/styles/styles.dart';
 
 class SideMenu extends ListView {
 

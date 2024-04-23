@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:my_stack/pages/main_page.dart';
 import 'package:my_stack/styles/styles.dart';
 
+import 'components/base_view.dart';
+import 'components/example.dart';
+import 'main.dart';
+
 class MyStackApp extends StatelessWidget {
-  const MyStackApp({super.key});
+
+  MyStackApp({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +22,15 @@ class MyStackApp extends StatelessWidget {
             brightness: Brightness.dark
           )
       ),
-      home: MainPage(title: 'My Stack'),
+      // home: MainPage(title: 'My Stack'),
 
-
+      navigatorKey: navigatorKey,
+      initialRoute: 'homeRoute',
+      builder: (context, child) => MainPage(title: 'My Stack', body: child!),
+      routes: {
+        'homeRoute': (context) => Example(),
+        'newViewRoute': (context) => Example2(),
+      }
     );
   }
 }

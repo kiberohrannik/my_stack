@@ -50,7 +50,7 @@ class _SavedLinksPageState extends State<SavedLinksPage> {
           ),
 
           appBar: MyStackAppBar("Saved links"),
-          drawer:
+          // drawer:
           // Drawer(
           //   child: ListView(
           //     padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
@@ -75,7 +75,7 @@ class _SavedLinksPageState extends State<SavedLinksPage> {
           //     ],
           //   ),
           // )
-      ),
+      )
     );
   }
 

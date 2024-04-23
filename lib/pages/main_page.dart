@@ -7,9 +7,12 @@ import 'package:my_stack/services/saved_links.dart';
 import 'package:my_stack/styles/styles.dart';
 import 'package:share_handler/share_handler.dart';
 
-class MainPage extends StatefulWidget {
-  const MainPage({super.key, required this.title});
+import '../main.dart';
 
+class MainPage extends StatefulWidget {
+  const MainPage({super.key, required this.title, required this.body});
+
+  final Widget body;
   final String title;
 
   @override
@@ -40,10 +43,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   void _showSavedLinks() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (BuildContext context) => SavedLinksPage(savedLinkService))
-    );
+    navigatorKey.currentState!.pushNamed('newViewRoute');
   }
 
   @override
@@ -53,6 +53,8 @@ class _MainPageState extends State<MainPage> {
       decoration: const BoxDecoration(gradient: GradientColor.blueGradient),
 
       child: Scaffold(
+        body: widget.body,
+
         backgroundColor: Colors.transparent,
         appBar: MyStackAppBar(widget.title),
         drawer: Drawer(

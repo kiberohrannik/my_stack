@@ -12,14 +12,12 @@ class MyStackAppBar extends AppBar {
               builder: (context) => AnimatedMenuButton()
             ),
             title: Text(title, style: GoogleFonts.jetBrainsMono(color: Colors.deepOrange)),
-            // title: Text(title, style: GoogleFonts.jetBrainsMono(color: Colors.white)),
-            bottom: PreferredSize(
+            bottom: const PreferredSize(
                 preferredSize: Size.zero,
                 child: DottedLine(
                     lineThickness: 2,
                     dashLength: 15,
                     dashGapLength: 8,
-                    // dashColor: Colors.deepOrange.shade900)
                     dashColor: Colors.deepOrange)
             )
   );

@@ -1,4 +1,4 @@
-import 'package:my_stack/service/saved_link.dart';
+import 'package:my_stack/services/saved_link.dart';
 
 abstract class SavedLinkService {
   List<SavedLink> getAllSaved();

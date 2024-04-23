@@ -9,18 +9,23 @@ class AnimatedMenuButton extends StatefulWidget {
 
 class _AnimatedMenuButtonState extends State<AnimatedMenuButton>
     with SingleTickerProviderStateMixin {
-  late final AnimationController controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 150))
+
+  late final AnimationController controller = AnimationController(
+      vsync: this,
+      duration:
+      const Duration(milliseconds: 150)
+  )
     ..addListener(() {
       setState(() {});
     });
 
   late final Animation<double> animation = Tween<double>(begin: 0.0, end: 0.6).animate(controller);
 
-  // @override
-  // void dispose() {
-  //   controller.dispose();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

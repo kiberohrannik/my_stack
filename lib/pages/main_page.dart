@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_stack/components/app_bar.dart';
-import 'package:my_stack/pages/saved_links_page.dart';
-import 'package:my_stack/services/in_memory_saved_links.dart';
 import 'package:my_stack/services/saved_link.dart';
 import 'package:my_stack/services/saved_links.dart';
 import 'package:my_stack/styles/styles.dart';
@@ -10,17 +8,18 @@ import 'package:share_handler/share_handler.dart';
 import '../main.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({super.key, required this.title, required this.body});
+  const MainPage({super.key, required this.title, required this.body, required this.savedLinkService});
 
   final Widget body;
   final String title;
+  final SavedLinkService savedLinkService;
+
 
   @override
   State<MainPage> createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-  final SavedLinkService savedLinkService = InMemorySavedLinkService();
 
   @override
   void initState() {
@@ -35,7 +34,7 @@ class _MainPageState extends State<MainPage> {
       if (!mounted) return;
       setState(() {
         if(media.content != null) {
-          savedLinkService.add(SavedLink(url: media.content!));
+          widget.savedLinkService.add(SavedLink(url: media.content!));
         }
       });
     });

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_stack/pages/main_page.dart';
+import 'package:my_stack/pages/saved_links_page.dart';
+import 'package:my_stack/services/in_memory_saved_links.dart';
+import 'package:my_stack/services/saved_links.dart';
 import 'package:my_stack/styles/styles.dart';
 
 import 'components/base_view.dart';
@@ -9,6 +12,8 @@ import 'main.dart';
 class MyStackApp extends StatelessWidget {
 
   MyStackApp({super.key});
+
+  final SavedLinkService _savedLinkService = InMemorySavedLinkService();
 
 
   @override
@@ -26,10 +31,10 @@ class MyStackApp extends StatelessWidget {
 
       navigatorKey: navigatorKey,
       initialRoute: 'homeRoute',
-      builder: (context, child) => MainPage(title: 'My Stack', body: child!),
+      builder: (context, child) => MainPage(title: 'My Stack', body: child!, savedLinkService: _savedLinkService),
       routes: {
         'homeRoute': (context) => Example(),
-        'newViewRoute': (context) => Example2(),
+        'newViewRoute': (context) => SavedLinksPage(_savedLinkService),
       }
     );
   }

@@ -26,7 +26,7 @@ class MyStackApp extends StatelessWidget {
             brightness: Brightness.dark
           )
       ),
-      // home: MainPage(title: 'My Stack'),
+      home: MainPage(title: 'My Stack', body: Container(), savedLinkService: _savedLinkService),
 
       navigatorKey: navigatorKey,
       initialRoute: 'homeRoute',

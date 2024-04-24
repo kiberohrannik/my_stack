@@ -8,7 +8,7 @@ import 'package:share_handler/share_handler.dart';
 import '../main.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({super.key, required this.title, required this.body, required this.savedLinkService});
+  const MainPage({super.key, required this.title, required this.body, required this.savedLinkService, });
 
   final Widget body;
   final String title;
@@ -45,7 +45,18 @@ class _MainPageState extends State<MainPage> {
   }
 
   void _showSavedLinks(BuildContext context) {
-      navigatorKey.currentState!.pushReplacementNamed('SavedLinksView');
+    bool isNewRouteSameAsCurrent = false;
+
+    navigatorKey.currentState!.popUntil((route) {
+      if (route.settings.name == "SavedLinksView") {
+        isNewRouteSameAsCurrent = true;
+      }
+      return true;
+    });
+
+    if(!isNewRouteSameAsCurrent) {
+      Navigator.pushNamed(navigatorKey.currentContext!, 'SavedLinksView', arguments: 'SavedLinksView');
+    }
   }
 
   @override

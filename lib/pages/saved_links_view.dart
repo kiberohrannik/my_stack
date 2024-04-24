@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 
-import '../components/app_bar.dart';
 import '../components/link_preview.dart';
 import '../services/saved_link.dart';
 import '../services/saved_links.dart';
-import '../styles/styles.dart';
 
-class SavedLinksPage extends StatefulWidget {
+class SavedLinksView extends StatefulWidget {
   final SavedLinkService _savedLinkService;
 
-  SavedLinksPage(this._savedLinkService, {super.key});
+  const SavedLinksView(this._savedLinkService, {super.key, String? route});
 
   @override
-  State<StatefulWidget> createState() => _SavedLinksPageState();
+  State<StatefulWidget> createState() => _SavedLinksViewState();
 }
 
-class _SavedLinksPageState extends State<SavedLinksPage> {
+class _SavedLinksViewState extends State<SavedLinksView> {
   late List<SavedLink> _links = widget._savedLinkService.getAllSaved();
 
   @override

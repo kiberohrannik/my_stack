@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:my_stack/pages/main_page.dart';
-import 'package:my_stack/pages/saved_links_page.dart';
+import 'package:my_stack/pages/saved_links_view.dart';
 import 'package:my_stack/services/in_memory_saved_links.dart';
 import 'package:my_stack/services/saved_links.dart';
 import 'package:my_stack/styles/styles.dart';
 
-import 'components/base_view.dart';
 import 'components/example.dart';
 import 'main.dart';
 
@@ -33,8 +32,8 @@ class MyStackApp extends StatelessWidget {
       initialRoute: 'homeRoute',
       builder: (context, child) => MainPage(title: 'My Stack', body: child!, savedLinkService: _savedLinkService),
       routes: {
-        'homeRoute': (context) => Example(),
-        'newViewRoute': (context) => SavedLinksPage(_savedLinkService),
+        'homeRoute': (context) => WelcomeView(),
+        'SavedLinksView': (context) => SavedLinksView(_savedLinkService),
       }
     );
   }

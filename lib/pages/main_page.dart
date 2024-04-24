@@ -21,6 +21,9 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+
   @override
   void initState() {
     super.initState();
@@ -41,8 +44,8 @@ class _MainPageState extends State<MainPage> {
     if (!mounted) return;
   }
 
-  void _showSavedLinks() {
-    navigatorKey.currentState!.pushNamed('newViewRoute');
+  void _showSavedLinks(BuildContext context) {
+      navigatorKey.currentState!.pushReplacementNamed('SavedLinksView');
   }
 
   @override
@@ -52,11 +55,14 @@ class _MainPageState extends State<MainPage> {
       decoration: const BoxDecoration(gradient: GradientColor.blueGradient),
 
       child: Scaffold(
+        key: _scaffoldKey,
         body: widget.body,
 
         backgroundColor: Colors.transparent,
         appBar: MyStackAppBar(widget.title),
         drawer: Drawer(
+          surfaceTintColor: Colors.blue,
+          backgroundColor: AppColor.blackBlue,
           child: ListView(
             padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
 
@@ -69,7 +75,10 @@ class _MainPageState extends State<MainPage> {
               ListTile(
                   title: const Text('Saved links'),
                   leading: const Icon(Icons.link),
-                  onTap: () => _showSavedLinks()
+                  onTap: () {
+                    _showSavedLinks(context);
+                    _scaffoldKey.currentState!.closeDrawer();
+                  }
               ),
             ],
           ),

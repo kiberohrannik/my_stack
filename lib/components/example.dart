@@ -1,23 +1,11 @@
 import 'package:flutter/cupertino.dart';
 
-class Example extends StatelessWidget {
+class WelcomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text("Example"),
+      // child: Text("Example"),
     );
   }
-
-}
-
-class Example2 extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Text("Example2"),
-    );
-  }
-
 }

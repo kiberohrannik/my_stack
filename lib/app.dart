@@ -33,7 +33,7 @@ class MyStackApp extends StatelessWidget {
       builder: (context, child) => MainPage(title: 'My Stack', body: child!, savedLinkService: _savedLinkService),
       routes: {
         'homeRoute': (context) => WelcomeView(),
-        'SavedLinksView': (context) => SavedLinksView(_savedLinkService),
+        // 'SavedLinksView': (context) => SavedLinksView(_savedLinkService),
       }
     );
   }

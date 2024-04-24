@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_stack/components/app_bar.dart';
+import 'package:my_stack/pages/saved_links_view.dart';
 import 'package:my_stack/services/saved_link.dart';
 import 'package:my_stack/services/saved_links.dart';
 import 'package:my_stack/styles/styles.dart';
@@ -55,7 +56,10 @@ class _MainPageState extends State<MainPage> {
     });
 
     if(!isNewRouteSameAsCurrent) {
-      Navigator.pushNamed(navigatorKey.currentContext!, 'SavedLinksView', arguments: 'SavedLinksView');
+      // Navigator.pushNamed(navigatorKey.currentContext!, 'SavedLinksView', arguments: 'SavedLinksView');
+
+      navigatorKey.currentState!
+          .push(MaterialPageRoute(settings: RouteSettings(name: "SavedLinksView"), builder: (context) => SavedLinksView(widget.savedLinkService)));
     }
   }
 

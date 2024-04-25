@@ -36,9 +36,9 @@ class InMemorySavedLinkService extends SavedLinkService {
           value.folder = SavedLinkFolder.archived;
           return value;
         });
-
-        return getAll(folder);
       }
+
+      return getAll(folder);
     }
 
     return [];

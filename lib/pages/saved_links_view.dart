@@ -1,4 +1,6 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../components/link_preview.dart';
 import '../services/domain/saved_link.dart';
@@ -20,15 +22,18 @@ class _SavedLinksViewState extends State<SavedLinksView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 50, bottom: 20),
+      margin: const EdgeInsets.only(top: 50, bottom: 20, left: 20, right: 20),
       child: ListView.builder(
           itemCount: _links.length,
           itemBuilder: (context, index) {
             return Dismissible(
+              behavior: HitTestBehavior.translucent ,
               background: Container(
+                  color: Color(0x33FFFFFF),
+                  margin: const EdgeInsets.only(right: 20, top: 20, bottom: 20, left: 0),
                   padding: const EdgeInsets.all(20),
                   alignment: Alignment.centerRight,
-                  child: const Text('Delete', style: TextStyle(fontSize: 20))
+                  child: Text('Delete', style: GoogleFonts.jetBrainsMono(color: Colors.white, textStyle: TextStyle(fontSize: 20)))
               ),
               direction: DismissDirection.endToStart,
               key: Key(_links[index].id),

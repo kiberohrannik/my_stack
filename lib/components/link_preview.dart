@@ -13,7 +13,7 @@ class LinkPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+      padding: EdgeInsets.only(top: 10, bottom: 10),
       child: AnyLinkPreview(
         backgroundColor: AppColor.blackBlue,
         titleStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),

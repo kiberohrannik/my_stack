@@ -1,20 +1,21 @@
-import 'package:my_stack/services/saved_link.dart';
+import 'package:flutter/material.dart';
+import 'package:my_stack/services/domain/saved_link.dart';
 import 'package:my_stack/services/saved_links.dart';
+
+import 'domain/folder.dart';
 
 class InMemorySavedLinkService extends SavedLinkService {
   final Map<String, SavedLink> _links = {};
+  final List<Folder> _folders = [];
 
   InMemorySavedLinkService() {
-    generateLinks();
+    _generateLinks();
+    _generateFolders();
   }
 
   @override
-  List<SavedLink> getAllSaved() =>
-      _links.values.where((e) => !e.isArchived).toList();
-
-  @override
-  List<SavedLink> getAllArchived() =>
-      _links.values.where((e) => e.isArchived).toList();
+  List<SavedLink> getAll(String folder) =>
+      _links.values.where((e) => e.folder == folder).toList();
 
   @override
   void add(SavedLink? link) {
@@ -26,24 +27,29 @@ class InMemorySavedLinkService extends SavedLinkService {
   @override
   List<SavedLink> removeById(String id) {
     if (_links.containsKey(id)) {
-      if (_links[id]!.isArchived) {
+
+      String folder = _links[id]!.folder;
+      if (_links[id]!.folder == SavedLinkFolder.archived) {
         _links.remove(id);
-        return getAllArchived();
       } else {
         _links.update(id, (value) {
-          value.isArchived = true;
+          value.folder = SavedLinkFolder.archived;
           return value;
         });
 
-        return getAllSaved();
+        return getAll(folder);
       }
     }
 
     return [];
   }
 
+  @override
+  List<Folder> getFolders() {
+    return _folders;
+  }
 
-  void generateLinks() {
+  void _generateLinks() {
     List<String> urls = [
       "https://www.tutorialspoint.com/dart_programming/dart_programming_map.htm",
     "https://github.com/bcgit/bc-java/blob/main/pkix/src/test/java/org/bouncycastle/cert/cmp/test/AllTests.java",
@@ -55,8 +61,13 @@ class InMemorySavedLinkService extends SavedLinkService {
     ];
 
     urls.forEach((element) {
-      SavedLink newLink = SavedLink(url: element);
+      SavedLink newLink = SavedLink(url: element, folder: SavedLinkFolder.saved);
       _links[newLink.id] = newLink;
     });
+  }
+
+  void _generateFolders() {
+    _folders.add(Folder(name: SavedLinkFolder.saved, icon: Icon(Icons.link_outlined), displayText: "Saved links"));
+    _folders.add(Folder(name: SavedLinkFolder.archived, icon: Icon(Icons.delete_forever_outlined), displayText: "Bin"));
   }
 }

@@ -6,8 +6,8 @@ class SavedLink {
 
   String id = _uuid.v1();
   String url;
-  bool isArchived = false;
+  String folder;
 
-  SavedLink({required this.url, this.isArchived = false});
+  SavedLink({required this.url, required this.folder});
 
 }

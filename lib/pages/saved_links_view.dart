@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 
 import '../components/link_preview.dart';
-import '../services/saved_link.dart';
+import '../services/domain/saved_link.dart';
 import '../services/saved_links.dart';
 
 class SavedLinksView extends StatefulWidget {
-  final SavedLinkService _savedLinkService;
+  final SavedLinkService savedLinkService;
+  final String folder;
 
-  const SavedLinksView(this._savedLinkService, {super.key, String? route});
+  const SavedLinksView({super.key, required this.savedLinkService, required this.folder});
 
   @override
   State<StatefulWidget> createState() => _SavedLinksViewState();
 }
 
 class _SavedLinksViewState extends State<SavedLinksView> {
-  late List<SavedLink> _links = widget._savedLinkService.getAllSaved();
+  late List<SavedLink> _links = widget.savedLinkService.getAll(widget.folder);
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +27,15 @@ class _SavedLinksViewState extends State<SavedLinksView> {
             return Dismissible(
               background: Container(
                   padding: const EdgeInsets.all(20),
-                  alignment: Alignment.centerLeft,
+                  alignment: Alignment.centerRight,
                   child: const Text('Delete', style: TextStyle(fontSize: 20))
               ),
-              direction: DismissDirection.startToEnd,
+              direction: DismissDirection.endToStart,
               key: Key(_links[index].id),
               child: LinkPreview(_links[index].url),
               onDismissed: (direction) {
                 setState(() {
-                  _links = widget._savedLinkService.removeById(_links[index].id);
+                  _links = widget.savedLinkService.removeById(_links[index].id);
                 });
               },
             );

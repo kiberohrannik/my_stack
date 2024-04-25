@@ -48,6 +48,26 @@ class InMemorySavedLinkService extends SavedLinkService {
     return _folders;
   }
 
+  @override
+  void hide(String id) {
+    _links[id]?.visible = false;
+    notifyListeners();
+  }
+
+  @override
+  void removeHided() {
+    _links.removeWhere((key, value) => !value.visible && value.folder == SavedLinkFolder.archived);
+    _links.updateAll((key, value) {
+      if(!value.visible) {
+        value.visible = true;
+        value.folder = SavedLinkFolder.archived;
+      }
+      return value;
+    });
+
+    notifyListeners();
+  }
+
   void _generateLinks() {
     List<String> urls = [
       "https://www.tutorialspoint.com/dart_programming/dart_programming_map.htm",

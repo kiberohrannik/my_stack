@@ -33,6 +33,8 @@ class _MainPageState extends State<MainPage> {
       widget.title = folder.displayText;
     });
 
+    widget.savedLinkService.removeHided();
+
     navigatorKey.currentState!.pushReplacement(MaterialPageRoute(
         builder: (context) => SavedLinksView(
             savedLinkService: widget.savedLinkService, folder: folder.name)));

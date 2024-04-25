@@ -32,7 +32,9 @@ class _SavedLinksViewState extends State<SavedLinksView> {
         builder: (context, child) => ListView.builder(
             itemCount: _links().length,
             itemBuilder: (context, index) {
-              return Dismissible(
+              return Visibility(
+                visible: _links()[index].visible,
+                  child: Dismissible(
                 behavior: HitTestBehavior.translucent ,
                 background: Container(
                     color: Color(0x33FFFFFF),
@@ -45,11 +47,17 @@ class _SavedLinksViewState extends State<SavedLinksView> {
                 key: Key(_links()[index].id),
                 child: LinkPreview(_links()[index].url),
                 onDismissed: (direction) {
-                  // setState(() {
-                    widget.savedLinkService.removeById(_links()[index].id);
-                  // });
+
+
+                  // widget.savedLinkService.removeById(_links()[index].id);
+
+                  widget.savedLinkService.hide(_links()[index].id);
+
+
                 },
+              )
               );
+
             }),
       )
     );

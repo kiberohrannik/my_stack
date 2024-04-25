@@ -9,6 +9,9 @@ abstract class SavedLinkService with ChangeNotifier {
   void add(SavedLink? link);
 
   void removeById(String id);
+  void hide(String id);
+
+  void removeHided();
 
   List<Folder> getFolders();
 }

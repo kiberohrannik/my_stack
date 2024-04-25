@@ -27,4 +27,16 @@ class GradientColor {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight
   );
+
+  static const LinearGradient homeGradient = LinearGradient(
+      colors: [
+        Color(0xFF9A186D),
+        Color(0xFFBC01DC),
+        AppColor.lightBlue,
+        Color(0xFF00C871)
+      ],
+
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight
+  );
 }

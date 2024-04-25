@@ -4,6 +4,7 @@ import 'package:my_stack/pages/saved_links_view.dart';
 import 'package:my_stack/services/saved_links.dart';
 import 'package:my_stack/styles/styles.dart';
 
+import '../components/drawer_header.dart';
 import '../main.dart';
 import '../services/domain/folder.dart';
 
@@ -37,27 +38,6 @@ class _MainPageState extends State<MainPage> {
             savedLinkService: widget.savedLinkService, folder: folder.name)));
   }
 
-  // void _showArchivedLinks() {
-  //   bool isNewRouteSameAsCurrent = false;
-  //
-  //   navigatorKey.currentState!.popUntil((route) {
-  //     if (route.settings.name == "ArchivedLinksView") {
-  //       isNewRouteSameAsCurrent = true;
-  //     }
-  //     return true;
-  //   });
-  //
-  //   if(!isNewRouteSameAsCurrent) {
-  //     navigatorKey.currentState!
-  //         .pushReplacement(MaterialPageRoute(
-  //         settings: const RouteSettings(name: "ArchivedLinksView"),
-  //         builder: (context) => SavedLinksView(
-  //             savedLinkService:  widget.savedLinkService,
-  //             folder: SavedLinkFolder.archived))
-  //     );
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -74,11 +54,8 @@ class _MainPageState extends State<MainPage> {
               child: Container(
                   child: Column(
                 children: [
-                  const DrawerHeader(
-                      decoration: BoxDecoration(),
-                      child: Text('To explore', textAlign: TextAlign.center)),
+                  MyStackDrawerHeader(scaffoldKey: _scaffoldKey),
                   Expanded(
-                    // child: Text("vfdbvfd")
                     child: ListView.builder(
                       itemCount: _folders.length,
                       itemBuilder: (context, index) {

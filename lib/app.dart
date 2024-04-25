@@ -11,7 +11,6 @@ import 'components/example.dart';
 import 'main.dart';
 
 class MyStackApp extends StatefulWidget {
-
   const MyStackApp({super.key});
 
   @override
@@ -19,7 +18,6 @@ class MyStackApp extends StatefulWidget {
 }
 
 class _MyStackAppState extends State<MyStackApp> {
-
   final SavedLinkService _savedLinkService = InMemorySavedLinkService();
 
   @override
@@ -33,11 +31,12 @@ class _MyStackAppState extends State<MyStackApp> {
 
     handler.sharedMediaStream.listen((SharedMedia media) {
       if (!mounted) return;
-      setState(() {
-        if(media.content != null) {
-          _savedLinkService.add(SavedLink(url: media.content!, folder: SavedLinkFolder.saved));
-        }
-      });
+      if (media.content != null) {
+        setState(() {
+          _savedLinkService.add(
+              SavedLink(url: media.content!, folder: SavedLinkFolder.saved));
+        });
+      }
     });
     if (!mounted) return;
   }
@@ -49,17 +48,15 @@ class _MyStackAppState extends State<MyStackApp> {
         theme: ThemeData(
             useMaterial3: true,
             colorScheme: ColorScheme.fromSeed(
-                seedColor: AppColor.blueDark,
-                brightness: Brightness.dark
-            )
-        ),
+                seedColor: AppColor.blueDark, brightness: Brightness.dark)),
         navigatorKey: navigatorKey,
         initialRoute: 'homeRoute',
-        builder: (context, child) => MainPage(title: 'My Stack', body: child!, savedLinkService: _savedLinkService),
+        builder: (context, child) => MainPage(
+            title: 'My Stack',
+            body: child!,
+            savedLinkService: _savedLinkService),
         routes: {
           'homeRoute': (context) => WelcomeView(),
-        }
-    );
+        });
   }
-
 }

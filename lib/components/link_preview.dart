@@ -14,7 +14,8 @@ class LinkPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 10, bottom: 10),
-      child: AnyLinkPreview(
+      child:
+      AnyLinkPreview(
         backgroundColor: AppColor.blackBlue,
         titleStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
         bodyStyle: TextStyle(color: Colors.white),

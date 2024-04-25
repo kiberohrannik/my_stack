@@ -15,17 +15,18 @@ class InMemorySavedLinkService extends SavedLinkService {
 
   @override
   List<SavedLink> getAll(String folder) =>
-      _links.values.where((e) => e.folder == folder).toList();
+      _links.values.where((e) => e.folder == folder).toList().reversed.toList();
 
   @override
   void add(SavedLink? link) {
     if (link != null) {
       _links[link.id] = link;
+      notifyListeners();
     }
   }
 
   @override
-  List<SavedLink> removeById(String id) {
+  void removeById(String id) {
     if (_links.containsKey(id)) {
 
       String folder = _links[id]!.folder;
@@ -38,10 +39,8 @@ class InMemorySavedLinkService extends SavedLinkService {
         });
       }
 
-      return getAll(folder);
+      notifyListeners();
     }
-
-    return [];
   }
 
   @override

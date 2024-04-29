@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_stack/pages/main_page.dart';
+import 'package:my_stack/pages/welcome_view.dart';
 import 'package:my_stack/services/domain/folder.dart';
 import 'package:my_stack/services/domain/saved_link.dart';
 import 'package:my_stack/services/in_memory_saved_links.dart';
@@ -7,7 +8,6 @@ import 'package:my_stack/services/saved_links.dart';
 import 'package:my_stack/styles/styles.dart';
 import 'package:share_handler/share_handler.dart';
 
-import 'components/example.dart';
 import 'main.dart';
 
 class MyStackApp extends StatefulWidget {

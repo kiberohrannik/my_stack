@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:my_stack/components/app_bar.dart';
+import 'package:my_stack/components/bottom_app_bar_menu.dart';
 import 'package:my_stack/pages/saved_links_view.dart';
 import 'package:my_stack/services/saved_links.dart';
-import 'package:my_stack/styles/styles.dart';
+import 'package:my_stack/styles/colorful-theme.dart';
 
+import '../components/bottom_app_bar.dart';
 import '../components/drawer_header.dart';
 import '../main.dart';
 import '../services/domain/folder.dart';
+import '../styles/dark-theme.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({
@@ -44,35 +48,16 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      decoration: const BoxDecoration(gradient: GradientColor.blueGradient),
+      decoration: const BoxDecoration(gradient: DarkGradientColor.blueGradient),
       child: Scaffold(
-          key: _scaffoldKey,
-          body: widget.body,
-          backgroundColor: Colors.transparent,
-          appBar: MyStackAppBar(widget.title),
-          drawer: Drawer(
-              surfaceTintColor: Colors.blue,
-              backgroundColor: AppColor.blackBlue,
-              child: Container(
-                  child: Column(
-                children: [
-                  MyStackDrawerHeader(scaffoldKey: _scaffoldKey),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: _folders.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                            title: Text(_folders[index].displayText),
-                            leading: _folders[index].icon,
-                            onTap: () {
-                              _showSavedLinks(_folders[index]);
-                              _scaffoldKey.currentState!.closeDrawer();
-                            });
-                      },
-                    ),
-                  )
-                ],
-              )))),
+        key: _scaffoldKey,
+        backgroundColor: Colors.transparent,
+
+        appBar: MyStackAppBar(widget.title),
+        bottomNavigationBar: MyStackBottomAppBar(child: BottomAppBarMenu()),
+
+        body: widget.body
+      ),
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:any_link_preview/any_link_preview.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_stack/styles/styles.dart';
+
+import '../styles/dark-theme.dart';
 
 class LinkPreview extends StatelessWidget {
 
@@ -16,7 +16,7 @@ class LinkPreview extends StatelessWidget {
       padding: EdgeInsets.only(top: 10, bottom: 10),
       child:
       AnyLinkPreview(
-        backgroundColor: AppColor.blackBlue,
+        backgroundColor: DarkColor.blackBlue,
         titleStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
         bodyStyle: TextStyle(color: Colors.white),
         borderRadius: 0,

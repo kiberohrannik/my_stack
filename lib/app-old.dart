@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:my_stack/pages/main_page.dart';
+import 'package:my_stack/pages/saved_links_view.dart';
 import 'package:my_stack/pages/welcome_view.dart';
 import 'package:my_stack/services/domain/folder.dart';
 import 'package:my_stack/services/domain/saved_link.dart';
 import 'package:my_stack/services/in_memory_saved_links.dart';
 import 'package:my_stack/services/saved_links.dart';
-import 'package:my_stack/styles/styles.dart';
 import 'package:share_handler/share_handler.dart';
 
 import 'main.dart';
@@ -45,12 +45,19 @@ class _MyStackAppState extends State<MyStackApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'My Stack',
-        theme: ThemeData(
-            useMaterial3: true,
-            colorScheme: ColorScheme.fromSeed(
-                seedColor: AppColor.blueDark, brightness: Brightness.dark)),
+
+        themeMode: ThemeMode.dark,
+
         navigatorKey: navigatorKey,
+
         initialRoute: 'homeRoute',
+
+        // onGenerateRoute: (settings) {
+        //   if (settings.name == '/saved') {
+        //     return MaterialPageRoute(builder: (_) => SavedLinksView(savedLinkService: _savedLinkService, )); // Pass it to BarPage.
+        //   }
+        // },
+
         builder: (context, child) => MainPage(
             title: 'My Stack',
             body: child!,

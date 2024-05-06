@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:my_stack/main.dart';
 
 class BottomAppBarMenu extends StatefulWidget {
 
@@ -12,16 +11,6 @@ class BottomAppBarMenu extends StatefulWidget {
 }
 
 class _BottomAppBarMenuState extends State<BottomAppBarMenu> {
-
-  void _toSavedLinksPage(String title) {
-    navigatorKey.currentState?.pushNamed(routeName)
-
-    widget.savedLinkService.removeHided();
-
-    navigatorKey.currentState!.pushReplacement(MaterialPageRoute(
-        builder: (context) => SavedLinksView(
-            savedLinkService: widget.savedLinkService, folder: folder.name)));
-  }
 
   @override
   Widget build(BuildContext context) {

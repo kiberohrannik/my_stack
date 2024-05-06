@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'app-old.dart';
+import 'app.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyStackApp());
+  runApp(const MyStackApp());
 }

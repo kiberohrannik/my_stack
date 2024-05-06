@@ -18,50 +18,21 @@ class MyStackApp extends StatefulWidget {
 }
 
 class _MyStackAppState extends State<MyStackApp> {
-  final SavedLinkService _savedLinkService = InMemorySavedLinkService();
-
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
-
-  Future<void> initPlatformState() async {
-    final handler = ShareHandlerPlatform.instance;
-
-    handler.sharedMediaStream.listen((SharedMedia media) {
-      if (!mounted) return;
-      if (media.content != null) {
-        setState(() {
-          _savedLinkService.add(
-              SavedLink(url: media.content!, folder: SavedLinkFolder.saved));
-        });
-      }
-    });
-    if (!mounted) return;
-  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'My Stack',
-
         themeMode: ThemeMode.dark,
 
         navigatorKey: navigatorKey,
 
-        initialRoute: 'homeRoute',
-
-        // onGenerateRoute: (settings) {
-        //   if (settings.name == '/saved') {
-        //     return MaterialPageRoute(builder: (_) => SavedLinksView(savedLinkService: _savedLinkService, )); // Pass it to BarPage.
-        //   }
-        // },
-
         builder: (context, child) => MainPage(
             title: 'My Stack',
-            body: child!,
-            savedLinkService: _savedLinkService),
+            body: child!
+        ),
+
+        initialRoute: 'homeRoute',
         routes: {
           'homeRoute': (context) => WelcomeView(),
         });

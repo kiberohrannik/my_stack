@@ -45,6 +45,7 @@ dependencies:
   any_link_preview: ^3.0.2
   share_handler: ^0.0.21
   uuid: ^4.4.0
+  custom_timer: ^0.2.3
 
 dev_dependencies:
   flutter_test:

@@ -1,11 +1,48 @@
+import 'dart:ffi';
+
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class WelcomeView extends StatefulWidget {
 
+  TimeTextController _timeTextController;
+
+  WelcomeView(this._timeTextController, {super.key});
+
   @override
   State<StatefulWidget> createState() => _WelcomeViewState();
+}
+
+class TimeTextController extends ChangeNotifier {
+  String startButtonText = "Start";
+  bool _stopped = true;
+
+  update(CustomTimerController timerController) {
+    if(_stopped) {
+      timerController.reset();
+      timerController.start();
+      _stopped = false;
+
+    } else if(startButtonText == "Start" || startButtonText == "Resume") {
+      startButtonText = "Pause";
+      timerController.pause();
+
+    } else if(startButtonText == "Pause") {
+      startButtonText = "Resume";
+      timerController.start();
+    }
+
+    notifyListeners();
+  }
+
+  stop(CustomTimerController timerController) {
+    startButtonText = "Start";
+    notifyListeners();
+    timerController.pause();
+    _stopped = true;
+  }
 }
 
 class _WelcomeViewState extends State<WelcomeView> with SingleTickerProviderStateMixin {
@@ -17,6 +54,9 @@ class _WelcomeViewState extends State<WelcomeView> with SingleTickerProviderStat
       initialState: CustomTimerState.reset,
       interval: CustomTimerInterval.seconds
   );
+
+  MaterialStatesController _startStatesController = MaterialStatesController();
+  MaterialStatesController _stopStatesController = MaterialStatesController();
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +89,8 @@ class _WelcomeViewState extends State<WelcomeView> with SingleTickerProviderStat
 
                     Container(
                       margin: EdgeInsets.all(15),
-                      height: 120,
-                      width: 120,
+                      height: 125,
+                      width: 125,
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
@@ -61,20 +101,34 @@ class _WelcomeViewState extends State<WelcomeView> with SingleTickerProviderStat
                       ),
 
                       child: ElevatedButton(
+                          style: ButtonStyle(
+                            textStyle: MaterialStateProperty.all(GoogleFonts.jetBrainsMono(color: Colors.purpleAccent.shade700)),
+                            backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
+                              if(states.contains(MaterialState.pressed)) {
+                                return Colors.lightGreenAccent.shade100;
+                              }
+                              return Colors.grey.shade200;
+                            }),
+                          ),
+                          statesController: _startStatesController,
                           onPressed: () {
-                            _controller.start();
+                            _stopStatesController.update(MaterialState.pressed, false);
+                            _startStatesController.update(MaterialState.pressed, true);
+                            // _controller.start();
 
+                            widget._timeTextController.update(_controller);
                           },
-                          child: Text("Start")
+                          child: Text(context.watch<TimeTextController>().startButtonText)
                       ),
                     ),
 
                     Container(
                       margin: EdgeInsets.all(15),
-                      height: 120,
-                      width: 120,
+                      height: 125,
+                      width: 125,
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
+                        color: Colors.transparent,
                         shape: BoxShape.circle,
                         border: Border.all(
                           color: Colors.purpleAccent,
@@ -83,13 +137,23 @@ class _WelcomeViewState extends State<WelcomeView> with SingleTickerProviderStat
                       ),
 
                       child: ElevatedButton(
+                          style: ButtonStyle(
+                            textStyle: MaterialStateProperty.all(GoogleFonts.jetBrainsMono(color: Colors.purpleAccent.shade700)),
+                            backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
+                              if(states.contains(MaterialState.pressed)) {
+                                return Colors.deepOrange.shade300;
+                              }
+                              return Colors.grey.shade200;
+                            }),
+                          ),
+                          statesController: _stopStatesController,
                           onPressed: () {
-                            _controller.pause();
-
-
-
+                            _startStatesController.update(MaterialState.pressed, false);
+                            _stopStatesController.update(MaterialState.pressed, true);
+                            // _controller.pause();
+                            widget._timeTextController.stop(_controller);
                           },
-                          child: Text("Stop")
+                          child: Text("Finish", style: GoogleFonts.jetBrainsMono(color: Colors.purpleAccent.shade700))
                       ),
                     )
                   ],

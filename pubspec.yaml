@@ -46,6 +46,8 @@ dependencies:
   share_handler: ^0.0.21
   uuid: ^4.4.0
   custom_timer: ^0.2.3
+#  flutter_bloc: ^8.1.5
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:

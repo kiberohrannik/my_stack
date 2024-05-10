@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_stack/pages/main_page.dart';
-import 'package:my_stack/pages/saved_links_view.dart';
 import 'package:my_stack/pages/welcome_view.dart';
-import 'package:my_stack/services/domain/folder.dart';
-import 'package:my_stack/services/domain/saved_link.dart';
-import 'package:my_stack/services/in_memory_saved_links.dart';
-import 'package:my_stack/services/saved_links.dart';
-import 'package:share_handler/share_handler.dart';
+import 'package:provider/provider.dart';
 
 import 'main.dart';
 
@@ -18,6 +13,8 @@ class MyStackApp extends StatefulWidget {
 }
 
 class _MyStackAppState extends State<MyStackApp> {
+
+  TimeTextController _timeTextController = TimeTextController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +31,12 @@ class _MyStackAppState extends State<MyStackApp> {
 
         initialRoute: 'homeRoute',
         routes: {
-          'homeRoute': (context) => WelcomeView(),
+          'homeRoute': (context) {
+            return ChangeNotifierProvider(
+              create: (BuildContext context) => _timeTextController,
+              child: WelcomeView(_timeTextController),
+            );
+          }
         });
   }
 }

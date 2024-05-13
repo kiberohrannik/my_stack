@@ -1,5 +1,6 @@
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
+import 'package:my_stack/styles/dark-theme.dart';
 import 'package:my_stack/styles/font_style_mixin.dart';
 import 'package:my_stack/time_tracker/stop_time_track_button.dart';
 import 'package:my_stack/time_tracker/time_track_button_container.dart';
@@ -67,18 +68,29 @@ class _TimeTrackViewState extends State<TimeTrackView> with FontStyleMixin {
               Flexible(
                   flex: 2,
                   child: Container(
-                    padding:
-                        const EdgeInsets.only(left: 50, right: 50, bottom: 20),
-                    child: ListView(
-                      children: const [
-                        TrackTimeHistoryItem(text: "Yesterday 07:44"),
-                        TrackTimeHistoryItem(text: "26 April 07:44"),
-                        TrackTimeHistoryItem(text: "25 April 07:44"),
-                        TrackTimeHistoryItem(text: "24 April 07:44", opacity: 0.7),
-                        TrackTimeHistoryItem(text: "23 April 07:44", opacity: 0.4),
-                        TrackTimeHistoryItem(text: "22 April 07:44", opacity: 0.15),
-                      ],
-                    ),
+                    padding: const EdgeInsets.only(left: 50, right: 50, bottom: 20),
+
+                    child: ShaderMask(
+                      shaderCallback: (bounds) => DarkGradientColor.historyGradient.createShader(bounds),
+                      child: ListView(
+                        children: const [
+                          TrackTimeHistoryItem(text: "Yesterday 07:44"),
+                          TrackTimeHistoryItem(text: "26 April 07:44"),
+                          TrackTimeHistoryItem(text: "25 April 07:44"),
+                          TrackTimeHistoryItem(text: "24 April 07:44"),
+                          TrackTimeHistoryItem(text: "23 April 07:44"),
+                          TrackTimeHistoryItem(text: "22 April 07:44"),
+                          TrackTimeHistoryItem(text: "21 April 07:44"),
+                          TrackTimeHistoryItem(text: "20 April 07:44"),
+                          TrackTimeHistoryItem(text: "19 April 07:44"),
+                          TrackTimeHistoryItem(text: "18 April 07:44"),
+                          TrackTimeHistoryItem(text: "17 April 07:44"),
+                          TrackTimeHistoryItem(text: "16 April 07:44"),
+                          TrackTimeHistoryItem(text: "15 April 07:44"),
+      ],
+    ),
+    )
+                    ,
                   ))
             ],
           ),

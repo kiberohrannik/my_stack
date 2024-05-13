@@ -23,6 +23,7 @@ class _TrackTimeHistoryItemState extends State<TrackTimeHistoryItem> with FontSt
           borderRadius: const BorderRadius.all(Radius.circular(10))),
 
       child: ListTile(
+
         visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
         title: Text(widget.text, style: textStyle(opacity: widget.opacity)),
       ),

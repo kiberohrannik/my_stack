@@ -37,4 +37,14 @@ class DarkGradientColor {
       begin: Alignment.topLeft,
       end: Alignment.bottomRight
   );
+
+  static LinearGradient historyGradient = LinearGradient(
+      colors: [
+        Colors.deepOrange.shade200,
+        DarkColor.blueGrey,
+      ],
+
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter
+  );
 }

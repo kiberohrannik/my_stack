@@ -10,11 +10,11 @@ class TimeTrackFacade extends StatefulWidget {
   const TimeTrackFacade({super.key});
   
   @override
-  State<StatefulWidget> createState() => TimeTrackFacadeState();
+  State<StatefulWidget> createState() => _TimeTrackFacadeState();
   
 }
 
-class TimeTrackFacadeState extends State<TimeTrackFacade> with SingleTickerProviderStateMixin {
+class _TimeTrackFacadeState extends State<TimeTrackFacade> with SingleTickerProviderStateMixin {
 
   final MaterialStatesController _startStatesController = MaterialStatesController();
   final MaterialStatesController _stopStatesController = MaterialStatesController();

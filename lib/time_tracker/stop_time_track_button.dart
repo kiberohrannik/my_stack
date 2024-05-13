@@ -16,12 +16,12 @@ class StopTimeTrackButton extends StatefulWidget {
   });
 
   @override
-  State<StatefulWidget> createState() => StopTimeTrackButtonState();
+  State<StatefulWidget> createState() => _StopTimeTrackButtonState();
   
 }
 
 
-class StopTimeTrackButtonState extends State<StopTimeTrackButton> {
+class _StopTimeTrackButtonState extends State<StopTimeTrackButton> {
   
   @override
   Widget build(BuildContext context) {

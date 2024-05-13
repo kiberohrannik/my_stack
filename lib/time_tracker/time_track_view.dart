@@ -3,49 +3,43 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_stack/time_tracker/stop_time_track_button.dart';
 import 'package:my_stack/time_tracker/time_track_button_container.dart';
-import 'package:provider/provider.dart';
 
-import '../time_tracker/start_time_track_button.dart';
-import '../time_tracker/time_state_controller.dart';
+import 'start_time_track_button.dart';
+import 'time_state_controller.dart';
 
-class WelcomeView extends StatefulWidget {
-  const WelcomeView({super.key});
+class TimeTrackView extends StatefulWidget {
+
+  final MaterialStatesController startStatesController;
+  final MaterialStatesController stopStatesController;
+  final CustomTimerController timerController;
+  final TrackTimeController trackTimeController;
+
+  const TimeTrackView({
+    super.key,
+    required this.startStatesController,
+    required this.stopStatesController,
+    required this.trackTimeController,
+    required this.timerController
+  });
 
   @override
-  State<StatefulWidget> createState() => _WelcomeViewState();
+  State<StatefulWidget> createState() => _TimeTrackViewState();
 }
 
-class _WelcomeViewState extends State<WelcomeView>
-    with SingleTickerProviderStateMixin {
-  final MaterialStatesController _startStatesController =
-      MaterialStatesController();
-  final MaterialStatesController _stopStatesController =
-      MaterialStatesController();
 
-  late final CustomTimerController _controller = CustomTimerController(
-      vsync: this,
-      begin: const Duration(),
-      end: const Duration(hours: 24),
-      initialState: CustomTimerState.reset,
-      interval: CustomTimerInterval.seconds);
-
-  late final TrackTimeController _trackTimeController =
-      TrackTimeController(_controller);
+class _TimeTrackViewState extends State<TimeTrackView> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (BuildContext context) => _trackTimeController,
-        child: Container(
+    return Container(
           alignment: Alignment.center,
           child: Column(
             children: [
               Container(
                   margin: const EdgeInsets.only(top: 30, bottom: 30),
                   child: CustomTimer(
-                      controller: _controller,
+                      controller: widget.timerController,
                       builder: (state, time) {
-                        // Build the widget you want!🎉
                         return Text(
                             "${time.hours}:${time.minutes}:${time.seconds}",
                             style: GoogleFonts.jetBrainsMono(
@@ -56,17 +50,22 @@ class _WelcomeViewState extends State<WelcomeView>
                 children: [
                   TimeTrackButtonContainer(
                       button: StartTimeTrackButton(
-                          startStyleController: _startStatesController,
-                          stopStyleController: _stopStatesController,
-                          trackTimeController: _trackTimeController)),
+                          startStyleController: widget.startStatesController,
+                          stopStyleController: widget.stopStatesController,
+                          trackTimeController: widget.trackTimeController)
+                  ),
                   TimeTrackButtonContainer(
                       button: StopTimeTrackButton(
-                          startStyleController: _startStatesController,
-                          stopStyleController: _stopStatesController,
-                          trackTimeController: _trackTimeController))
+                          startStyleController: widget.startStatesController,
+                          stopStyleController: widget.stopStatesController,
+                          trackTimeController: widget.trackTimeController)
+                  )
                 ],
               ),
+
+
               const Spacer(flex: 1),
+
               Flexible(
                   flex: 2,
                   child: Container(
@@ -170,6 +169,6 @@ class _WelcomeViewState extends State<WelcomeView>
                   ))
             ],
           ),
-        ));
+        );
   }
 }

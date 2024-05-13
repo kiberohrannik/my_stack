@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_stack/pages/main_page.dart';
-import 'package:my_stack/pages/welcome_view.dart';
+import 'package:my_stack/time_tracker/time_track_facade.dart';
 
 import 'main.dart';
 
@@ -28,7 +28,7 @@ class _MyStackAppState extends State<MyStackApp> {
 
         initialRoute: 'homeRoute',
         routes: {
-          'homeRoute': (context) => const WelcomeView()
+          'homeRoute': (context) => const TimeTrackFacade()
         });
   }
 }

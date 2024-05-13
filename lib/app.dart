@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_stack/pages/main_page.dart';
 import 'package:my_stack/pages/welcome_view.dart';
-import 'package:provider/provider.dart';
 
 import 'main.dart';
 
@@ -13,8 +12,6 @@ class MyStackApp extends StatefulWidget {
 }
 
 class _MyStackAppState extends State<MyStackApp> {
-
-  TimeTextController _timeTextController = TimeTextController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +28,7 @@ class _MyStackAppState extends State<MyStackApp> {
 
         initialRoute: 'homeRoute',
         routes: {
-          'homeRoute': (context) {
-            return ChangeNotifierProvider(
-              create: (BuildContext context) => _timeTextController,
-              child: WelcomeView(_timeTextController),
-            );
-          }
+          'homeRoute': (context) => const WelcomeView()
         });
   }
 }

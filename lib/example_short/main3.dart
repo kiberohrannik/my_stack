@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:my_stack/styles/dark-theme.dart';
@@ -62,22 +63,18 @@ class MyApp extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final notificationWhichLaunchedApp = useState<Map<String?, Object?>?>(null);
-    final messagesReceived = useState<List<RemoteMessage>>([]);
-    final backgroundMessagesReceived = useState<List<RemoteMessage>>([]);
-    final tappedNotificationPayloads = useState<List<Map<String?, Object?>>>([]);
     final isForegroundNotificationsEnabled = useState(true);
 
     useEffect(() {
-      configureAndroidPushNotificationChannels();
+
+      // configureAndroidPushNotificationChannels();
 
       // Handle push notifications
       final unsubscribeOnMessage = Push.instance.addOnMessage((message) {
 
         // Push Notifications won't be shown by default when the app is in the foreground.
         // TODO use the state to show local notification.
-        if (message.notification != null &&
-            isForegroundNotificationsEnabled.value) {
+        if (message.notification != null && isForegroundNotificationsEnabled.value) {
           displayForegroundNotification(message.notification!);
         }
       });
@@ -101,15 +98,19 @@ class MyApp extends HookWidget {
   }
 
   void displayForegroundNotification(govno.Notification notification) async {
-    String url = "https://yt3.googleusercontent.com/_DiGCcjGwJQAZ3zmlyB8TCYuA8O9tDJ9zGNysq5sR0rxwYb6SP5fW8cb3LbfcRwfui0m27oIhA=s900-c-k-c0x00ffffff-no-rj";
-    var response = (await http.get(Uri.parse(url))).bodyBytes;
-    AndroidBitmap<Object> androidBitmap = ByteArrayAndroidBitmap.fromBase64String(base64Encode(response));
+    // String url = "https://yt3.googleusercontent.com/_DiGCcjGwJQAZ3zmlyB8TCYuA8O9tDJ9zGNysq5sR0rxwYb6SP5fW8cb3LbfcRwfui0m27oIhA=s900-c-k-c0x00ffffff-no-rj";
+    // var response = (await http.get(Uri.parse(url))).bodyBytes;
+
+    // ByteData imageBytes = await rootBundle.load('images/icon.png');
+    // ByteData imageBytes = File("images/icon.png")
+    // List<int> bytes = List.of(imageBytes.buffer.asInt64List());
+    // AndroidBitmap<Object> androidBitmap = DrawableResourceAndroidBitmap("achievements/space/black_hole");
+    AndroidBitmap<Object> androidBitmap = DrawableResourceAndroidBitmap("first_travel");
 
     final androidOptions = AndroidNotificationDetails(
         color: Colors.deepOrange,
 
         largeIcon: androidBitmap,
-        // icon: "icon.png",
         debugChannel.id,
         debugChannel.name,
         channelDescription: debugChannel.description,

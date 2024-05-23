@@ -32,12 +32,6 @@ class TimeTrackView extends StatefulWidget {
 
 class _TimeTrackViewState extends State<TimeTrackView> with FontStyleMixin {
 
-
-  // void sayHiByPush() {
-  //
-  // }
-
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -65,14 +59,6 @@ class _TimeTrackViewState extends State<TimeTrackView> with FontStyleMixin {
           ),
 
           const Spacer(flex: 1),
-
-
-          // TextButton(
-          //     onPressed: () => sayHiByPush(),
-          //     child: const Text("Send push")
-          // ),
-
-
 
           Flexible(
               flex: 2,

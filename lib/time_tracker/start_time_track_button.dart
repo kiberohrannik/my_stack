@@ -28,10 +28,14 @@ class _StartTimeTrackButtonState extends State<StartTimeTrackButton> {
   Widget build(BuildContext context) {
     return ElevatedButton(
         style: ButtonStyle(
-          textStyle: MaterialStateProperty.all(GoogleFonts.jetBrainsMono(color: Colors.purpleAccent.shade700)),
+          // textStyle: MaterialStateProperty.all(GoogleFonts.jetBrainsMono(color: Colors.purpleAccent.shade700)),
+          textStyle: MaterialStateProperty.all(GoogleFonts.jetBrainsMono(color: Color(0xFF7800AE))),
           backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
             if(states.contains(MaterialState.pressed)) {
-              return Colors.lightGreenAccent.shade100;
+              // return Colors.lightGreenAccent.shade100;
+              // return Color(0xFF9FFF90);
+              return Color(0xFF90FFA2);
+              // return Color(0xFF83C183);
             }
             return Colors.grey.shade200;
           }),

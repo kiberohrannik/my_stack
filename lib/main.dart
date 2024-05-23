@@ -1,5 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:my_stack/time_tracker/data/time_shot.dart';
+import 'package:my_stack/time_tracker/data/track_status.dart';
+import 'package:my_stack/time_tracker/service/hive_time_track_service.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'app.dart';
 
@@ -7,6 +12,16 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  final appDocumentDirectory = await getApplicationDocumentsDirectory();
+
+  Hive
+    ..init(appDocumentDirectory.path)
+    ..registerAdapter(TimeShotAdapter())
+    ..registerAdapter(TrackStatusAdapter());
+
+  //TODO refactor initStorage
+  HiveTimeTrackService.initStorage();
 
   await Firebase.initializeApp(
       options: const FirebaseOptions(

@@ -1,6 +1,8 @@
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:my_stack/time_tracker/service/history_service.dart';
+import 'package:my_stack/time_tracker/service/hive_time_track_service.dart';
+import 'package:my_stack/time_tracker/service/time_track_service.dart';
 import 'package:my_stack/time_tracker/time_track_view.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +29,8 @@ class _TimeTrackFacadeState extends State<TimeTrackFacade> with SingleTickerProv
       initialState: CustomTimerState.reset,
       interval: CustomTimerInterval.seconds);
 
-  late final TrackTimeController _trackTimeController = TrackTimeController(_timerController);
+  final TimeTrackService timeTrackService = HiveTimeTrackService();
+  late final TrackTimeController _trackTimeController = TrackTimeController(_timerController, timeTrackService);
 
   final TimeHistoryService _historyService = new InMemoryTimeHistoryService();
   

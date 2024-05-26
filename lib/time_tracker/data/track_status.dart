@@ -17,7 +17,7 @@ enum TrackStatus {
   PAUSED("Resume", CustomTimerState.paused),
 
   @HiveField(3)
-  FINISHED("Start", CustomTimerState.finished),
+  FINISHED("Resume", CustomTimerState.finished),
 
   @HiveField(4)
   RUNNING_CLOSED("Pause", CustomTimerState.counting);

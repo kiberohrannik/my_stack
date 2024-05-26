@@ -11,18 +11,18 @@ import 'package:provider/provider.dart';
 import 'time_state_controller.dart';
 
 class TimeTrackFacade extends StatefulWidget {
-  
   const TimeTrackFacade({super.key});
-  
+
   @override
   State<StatefulWidget> createState() => _TimeTrackFacadeState();
-  
 }
 
-class _TimeTrackFacadeState extends State<TimeTrackFacade> with SingleTickerProviderStateMixin {
-
-  final MaterialStatesController _startStatesController = MaterialStatesController();
-  final MaterialStatesController _stopStatesController = MaterialStatesController();
+class _TimeTrackFacadeState extends State<TimeTrackFacade>
+    with SingleTickerProviderStateMixin {
+  final MaterialStatesController _startStatesController =
+      MaterialStatesController();
+  final MaterialStatesController _stopStatesController =
+      MaterialStatesController();
 
   late final CustomTimerController _timerController = CustomTimerController(
       vsync: this,
@@ -33,39 +33,21 @@ class _TimeTrackFacadeState extends State<TimeTrackFacade> with SingleTickerProv
 
   final HiveTimeTrackService timeTrackService = HiveTimeTrackService();
 
-  late final TrackTimeController _trackTimeController = TrackTimeController(_timerController, timeTrackService);
+  late final TrackTimeController _trackTimeController =
+      TrackTimeController(_timerController, timeTrackService);
 
   final TimeHistoryService _historyService = new InMemoryTimeHistoryService();
-  
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (BuildContext context) => _trackTimeController,
-        
         child: TimeTrackView(
           startStatesController: _startStatesController,
           stopStatesController: _stopStatesController,
           timerController: _timerController,
           trackTimeController: _trackTimeController,
           historyService: _historyService,
-        )
-    );
-  }
-
-
-  late final AppLifecycleListener _listener;
-
-  @override
-  void initState() {
-    super.initState();
-    _listener = AppLifecycleListener(
-
-      onDetach: () {
-        timeTrackService.saveTime(
-            trackedSeconds: _timerController.remaining.value.duration.inSeconds,
-            trackStatus: TrackStatus.FINISHED
-        );
-      },
-    );
+        ));
   }
 }

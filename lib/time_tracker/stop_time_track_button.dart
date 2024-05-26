@@ -28,11 +28,9 @@ class _StopTimeTrackButtonState extends State<StopTimeTrackButton> {
   Widget build(BuildContext context) {
     return ElevatedButton(
         style: ButtonStyle(
-          // textStyle: MaterialStateProperty.all(GoogleFonts.jetBrainsMono(color: Colors.purpleAccent.shade700)),
           textStyle: MaterialStateProperty.all(GoogleFonts.jetBrainsMono(color: Color(0xFF7800AE))),
           backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
             if(states.contains(MaterialState.pressed)) {
-              // return Colors.deepOrange.shade300;
               return Colors.deepOrange.shade300;
             }
             return Colors.grey.shade200;
@@ -46,7 +44,7 @@ class _StopTimeTrackButtonState extends State<StopTimeTrackButton> {
           widget.trackTimeController.stop();
 
           //TODO just for testing, remove afterwards this call
-          SystemNavigator.pop();
+          // SystemNavigator.pop();
         },
         child: Text("Finish")
     );

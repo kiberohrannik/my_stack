@@ -7,7 +7,7 @@ part 'time_shot.g.dart';
 class TimeShot extends HiveObject {
 
   @HiveField(0)
-  DateTime start = DateTime.timestamp();
+  DateTime initialStart = DateTime.timestamp();
 
   @HiveField(1)
   DateTime stop = DateTime.timestamp();
@@ -18,5 +18,8 @@ class TimeShot extends HiveObject {
   @HiveField(3)
   TrackStatus status = TrackStatus.STOPPED;
 
-  TimeShot(this.start, this.status);
+  @HiveField(4)
+  DateTime countingStart = DateTime.timestamp();
+
+  TimeShot(this.initialStart, this.status);
 }

@@ -10,64 +10,83 @@ class TrackTimeController extends ChangeNotifier {
   final CustomTimerController _timerController;
 
   bool _stopped = true;
-  late String startButtonText = TrackStatus.STOPPED.buttonText;
+  bool _continue_running = false;
+  late String startButtonText;
 
   TrackTimeController(this._timerController, this._timeTrackService) {
 
+    startButtonText = _timeTrackService.getStatus().buttonText;
+    notifyListeners();
+
     _timerController.state.addListener(() {
       TrackStatus trackStatus = TrackStatus.getStatus(_timerController.state.value);
+      notifyListeners();
+
+      if(_stopped && trackStatus == TrackStatus.PAUSED) {
+        trackStatus = TrackStatus.STOPPED;
+      }
       startButtonText = trackStatus.buttonText;
       notifyListeners();
 
       _timeTrackService.saveTime(
           trackedSeconds: _timerController.remaining.value.duration.inSeconds,
-          trackStatus: trackStatus
+          trackStatus: trackStatus,
+          continueRunning: _continue_running
       );
     });
+
+
+    if(_timeTrackService.getStatus() == TrackStatus.STOPPED) {
+      _stopped = true;
+      startButtonText = TrackStatus.STOPPED.buttonText;
+      notifyListeners();
+    }
 
 
     _timerController.begin = _timeTrackService.getTrackedTime();
 
     if(_timeTrackService.getStatus() == TrackStatus.RUNNING) {
-      print("bgtenbgtebngt-----------------");
-      //FIXME Here is the problem
+      _continue_running = true;
+      _stopped = false;
       _timerController.remaining.value = CustomTimerRemainingTime(duration: _timerController.begin);
       _timerController.start();
-      _stopped = false;
     }
   }
 
   update() async {
     if (_stopped) {
-      //TODO create here protection from misclick
-
-      _timerController.reset();
       await _timeTrackService.reset();
+      _timerController.begin = Duration.zero;
+      _timerController.remaining.value = CustomTimerRemainingTime(duration: Duration.zero);
+      _timerController.state.value = CustomTimerState.finished;
 
-      _timerController.begin = _timeTrackService.getTrackedTime();
-      _timerController.start();
-      await _timeTrackService.saveStart();
+      // _timerController.begin = _timeTrackService.getTrackedTime();
       _stopped = false;
-
+      _continue_running = false;
+      await _timeTrackService.saveStart();
+      _timerController.start();
 
     } else if (startButtonText == TrackStatus.RUNNING.buttonText) {
       _timerController.pause();
+      _continue_running = false;
 
     } else if (startButtonText == TrackStatus.PAUSED.buttonText) {
       _timerController.begin = _timeTrackService.getTrackedTime();
       _timerController.start();
+      _continue_running = false;
     }
 
     notifyListeners();
   }
 
-  stop() {
-    _timerController.pause();
+  stop() async {
+    _continue_running = false;
     _stopped = true;
-
-    // _timeTrackService.sa(trackedSeconds);
 
     startButtonText = TrackStatus.STOPPED.buttonText;
     notifyListeners();
+    _timerController.pause();
+
+    await _timeTrackService.saveStatus(TrackStatus.STOPPED);
   }
 }

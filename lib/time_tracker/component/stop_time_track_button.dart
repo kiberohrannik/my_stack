@@ -27,6 +27,10 @@ class _StopTimeTrackButtonState extends State<StopTimeTrackButton> {
   
   @override
   Widget build(BuildContext context) {
+    var stopFlag = context.watch<TrackTimeController>().stopped;
+    widget.startStyleController.update(MaterialState.pressed, !stopFlag);
+    widget.stopStyleController.update(MaterialState.pressed, stopFlag);
+
     return ElevatedButton(
         style: ButtonStyle(
           textStyle: MaterialStateProperty.all(GoogleFonts.jetBrainsMono(color: const Color(0xFF7800AE))),

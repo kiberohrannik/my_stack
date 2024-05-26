@@ -8,13 +8,15 @@ class TrackTimeController extends ChangeNotifier {
   final HiveTimeTrackService _timeTrackService;
   final CustomTimerController _timerController;
 
-  bool _stopped = true;
+  bool stopped = true;
   bool _continueRunning = false;
   late String startButtonText;
   late String stopButtonText = "Stop";
 
 
   TrackTimeController(this._timerController, this._timeTrackService) {
+    _updateStopped(stopped);
+
     _timerController.state.addListener(() => _listenTimerState());
 
     //Resolve initial state of timer when opening app
@@ -24,12 +26,13 @@ class TrackTimeController extends ChangeNotifier {
     _timerController.begin = _timeTrackService.getTime();
 
     if(status == TrackStatus.paused) {
-      _stopped = false;
+      _updateStopped(false);
     }
 
 
     if(status == TrackStatus.running) {
-      _stopped = false;
+      _updateStopped(false);
+
       _continueRunning = true;
       _timerController.remaining.value = CustomTimerRemainingTime(duration: _timerController.begin);
       _timerController.start();
@@ -38,7 +41,8 @@ class TrackTimeController extends ChangeNotifier {
 
   
   update() {
-    if (_stopped) {
+    if (stopped) {
+      _updateStopped(false);
       _timeTrackService.reset();
       _timerController.begin = Duration.zero;
       _timerController.remaining.value = CustomTimerRemainingTime(duration: Duration.zero);
@@ -61,7 +65,7 @@ class TrackTimeController extends ChangeNotifier {
 
   stop() {
     _continueRunning = false;
-    _stopped = true;
+    _updateStopped(true);
 
     _updateButtonsText(TrackStatus.stopped);
 
@@ -76,7 +80,7 @@ class TrackTimeController extends ChangeNotifier {
   void _listenTimerState() {
     var status = TrackStatus.getStatus(_timerController.state.value);
 
-    if (_stopped && status == TrackStatus.paused) {
+    if (stopped && status == TrackStatus.paused) {
       status = TrackStatus.stopped;
     }
 
@@ -96,6 +100,12 @@ class TrackTimeController extends ChangeNotifier {
   
   void _resetStopState() {
     _continueRunning = false;
-    _stopped = false;
+    _updateStopped(false);
+  }
+
+  bool _updateStopped(bool value) {
+    stopped = value;
+    notifyListeners();
+    return stopped;
   }
 }

@@ -26,16 +26,17 @@ class _StartTimeTrackButtonState extends State<StartTimeTrackButton> {
   
   @override
   Widget build(BuildContext context) {
+    var startFlag = !context.watch<TrackTimeController>().stopped;
+    widget.startStyleController.update(MaterialState.pressed, startFlag);
+    widget.stopStyleController.update(MaterialState.pressed, !startFlag);
+
+
     return ElevatedButton(
         style: ButtonStyle(
-          // textStyle: MaterialStateProperty.all(GoogleFonts.jetBrainsMono(color: Colors.purpleAccent.shade700)),
-          textStyle: MaterialStateProperty.all(GoogleFonts.jetBrainsMono(color: Color(0xFF7800AE))),
+          textStyle: MaterialStateProperty.all(GoogleFonts.jetBrainsMono(color: const Color(0xFF7800AE))),
           backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
             if(states.contains(MaterialState.pressed)) {
-              // return Colors.lightGreenAccent.shade100;
-              // return Color(0xFF9FFF90);
-              return Color(0xFF90FFA2);
-              // return Color(0xFF83C183);
+              return const Color(0xFF90FFA2);
             }
             return Colors.grey.shade200;
           }),
@@ -43,10 +44,10 @@ class _StartTimeTrackButtonState extends State<StartTimeTrackButton> {
         statesController: widget.startStyleController,
         onPressed: () => {},
         onLongPress: () {
-          widget.stopStyleController.update(MaterialState.pressed, false);
-          widget.startStyleController.update(MaterialState.pressed, true);
-
           widget.trackTimeController.update();
+          widget.stopStyleController.update(MaterialState.pressed, !startFlag);
+          widget.startStyleController.update(MaterialState.pressed, startFlag);
+
         },
         child: Text(context.watch<TrackTimeController>().startButtonText)
     );

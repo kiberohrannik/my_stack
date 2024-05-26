@@ -16,10 +16,6 @@ class TimeTrackFacade extends StatefulWidget {
 
 class _TimeTrackFacadeState extends State<TimeTrackFacade>
     with SingleTickerProviderStateMixin {
-  final MaterialStatesController _startStatesController =
-      MaterialStatesController();
-  final MaterialStatesController _stopStatesController =
-      MaterialStatesController();
 
   late final CustomTimerController _timerController = CustomTimerController(
       vsync: this,
@@ -40,8 +36,6 @@ class _TimeTrackFacadeState extends State<TimeTrackFacade>
     return ChangeNotifierProvider(
         create: (BuildContext context) => _trackTimeController,
         child: TimeTrackView(
-          startStatesController: _startStatesController,
-          stopStatesController: _stopStatesController,
           timerController: _timerController,
           trackTimeController: _trackTimeController,
           historyService: _historyService,

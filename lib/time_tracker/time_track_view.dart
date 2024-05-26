@@ -12,16 +12,14 @@ import 'component/start_time_track_button.dart';
 import 'time_state_controller.dart';
 
 class TimeTrackView extends StatefulWidget {
-  final MaterialStatesController startStatesController;
-  final MaterialStatesController stopStatesController;
+  final MaterialStatesController _startStatesController = MaterialStatesController();
+  final MaterialStatesController _stopStatesController = MaterialStatesController();
   final CustomTimerController timerController;
   final TrackTimeController trackTimeController;
   final TimeHistoryService historyService;
 
-  const TimeTrackView(
+  TimeTrackView(
       {super.key,
-      required this.startStatesController,
-      required this.stopStatesController,
       required this.trackTimeController,
       required this.timerController,
       required this.historyService});
@@ -47,13 +45,13 @@ class _TimeTrackViewState extends State<TimeTrackView> with FontStyleMixin {
             children: [
               TimeTrackButtonContainer(
                   button: StartTimeTrackButton(
-                      startStyleController: widget.startStatesController,
-                      stopStyleController: widget.stopStatesController,
+                      startStyleController: widget._startStatesController,
+                      stopStyleController: widget._stopStatesController,
                       trackTimeController: widget.trackTimeController)),
               TimeTrackButtonContainer(
                   button: StopTimeTrackButton(
-                      startStyleController: widget.startStatesController,
-                      stopStyleController: widget.stopStatesController,
+                      startStyleController: widget._startStatesController,
+                      stopStyleController: widget._stopStatesController,
                       trackTimeController: widget.trackTimeController))
             ],
           ),

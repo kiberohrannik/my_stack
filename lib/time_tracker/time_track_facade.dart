@@ -65,7 +65,6 @@ class _TimeTrackFacadeState extends State<TimeTrackFacade> with SingleTickerProv
             trackedSeconds: _timerController.remaining.value.duration.inSeconds,
             trackStatus: TrackStatus.FINISHED
         );
-        trackedTime = RestorableInt(_timerController.remaining.value.duration.inSeconds);
       },
     );
   }

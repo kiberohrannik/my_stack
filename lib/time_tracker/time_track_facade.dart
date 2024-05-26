@@ -19,7 +19,7 @@ class TimeTrackFacade extends StatefulWidget {
   
 }
 
-class _TimeTrackFacadeState extends State<TimeTrackFacade> with SingleTickerProviderStateMixin, RestorationMixin {
+class _TimeTrackFacadeState extends State<TimeTrackFacade> with SingleTickerProviderStateMixin {
 
   final MaterialStatesController _startStatesController = MaterialStatesController();
   final MaterialStatesController _stopStatesController = MaterialStatesController();
@@ -33,7 +33,6 @@ class _TimeTrackFacadeState extends State<TimeTrackFacade> with SingleTickerProv
 
   final HiveTimeTrackService timeTrackService = HiveTimeTrackService();
 
-  // RestorableInt<TimeShot> trackedTime = RestorableInt(0);
   late final TrackTimeController _trackTimeController = TrackTimeController(_timerController, timeTrackService);
 
   final TimeHistoryService _historyService = new InMemoryTimeHistoryService();
@@ -66,17 +65,8 @@ class _TimeTrackFacadeState extends State<TimeTrackFacade> with SingleTickerProv
             trackedSeconds: _timerController.remaining.value.duration.inSeconds,
             trackStatus: TrackStatus.FINISHED
         );
+        trackedTime = RestorableInt(_timerController.remaining.value.duration.inSeconds);
       },
     );
   }
-
-  @override
-  String? get restorationId => "track-time-restorationId";
-
-  @override
-  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
-    // registerForRestoration(, restorationId)
-  }
-
-
 }

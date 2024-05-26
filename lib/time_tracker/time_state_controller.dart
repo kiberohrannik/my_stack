@@ -10,9 +10,7 @@ class TrackTimeController extends ChangeNotifier {
   final CustomTimerController _timerController;
 
   bool _stopped = true;
-  // late String startButtonText;
   late String startButtonText = TrackStatus.STOPPED.buttonText;
-
 
   TrackTimeController(this._timerController, this._timeTrackService) {
 

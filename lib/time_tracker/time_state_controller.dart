@@ -18,23 +18,27 @@ class TrackTimeController extends ChangeNotifier {
     startButtonText = _timeTrackService.getStatus().buttonText;
     notifyListeners();
 
-    _timerController.state.addListener(() {
-      TrackStatus trackStatus = TrackStatus.getStatus(_timerController.state.value);
-      notifyListeners();
+    // _timerController.state.addListener(() {
+    //   TrackStatus trackStatus = TrackStatus.getStatus(_timerController.state.value);
+    //
+    //   if(_stopped && trackStatus == TrackStatus.PAUSED) {
+    //     trackStatus = TrackStatus.STOPPED;
+    //   }
+    //   startButtonText = trackStatus.buttonText;
+    //   notifyListeners();
+    //
+    //   _timeTrackService.saveTime(
+    //       trackedSeconds: _timerController.remaining.value.duration.inSeconds,
+    //       trackStatus: trackStatus,
+    //       continueRunning: _continue_running
+    //   );
+    // });
 
-      if(_stopped && trackStatus == TrackStatus.PAUSED) {
-        trackStatus = TrackStatus.STOPPED;
-      }
-      startButtonText = trackStatus.buttonText;
-      notifyListeners();
+    _timerController.state.addListener(() => _listenTimerState());
 
-      _timeTrackService.saveTime(
-          trackedSeconds: _timerController.remaining.value.duration.inSeconds,
-          trackStatus: trackStatus,
-          continueRunning: _continue_running
-      );
-    });
-
+    if(_timeTrackService.getStatus() == TrackStatus.PAUSED) {
+      _stopped = false;
+    }
 
     if(_timeTrackService.getStatus() == TrackStatus.STOPPED) {
       _stopped = true;
@@ -67,17 +71,28 @@ class TrackTimeController extends ChangeNotifier {
       _timerController.start();
 
     } else if (startButtonText == TrackStatus.RUNNING.buttonText) {
-      _timerController.pause();
       _continue_running = false;
+      _stopped = false;
+      _timerController.pause();
 
     } else if (startButtonText == TrackStatus.PAUSED.buttonText) {
       _timerController.begin = _timeTrackService.getTrackedTime();
-      _timerController.start();
       _continue_running = false;
+      _stopped = false;
+      _timerController.start();
     }
-
-    notifyListeners();
   }
+
+  // stop() async {
+  //   _continue_running = false;
+  //   _stopped = true;
+  //
+  //   startButtonText = TrackStatus.STOPPED.buttonText;
+  //   notifyListeners();
+  //   _timerController.pause();
+  //
+  //   await _timeTrackService.saveStatus(TrackStatus.STOPPED);
+  // }
 
   stop() async {
     _continue_running = false;
@@ -85,8 +100,26 @@ class TrackTimeController extends ChangeNotifier {
 
     startButtonText = TrackStatus.STOPPED.buttonText;
     notifyListeners();
-    _timerController.pause();
 
-    await _timeTrackService.saveStatus(TrackStatus.STOPPED);
+    if(_timerController.state.value == CustomTimerState.paused) {
+      _listenTimerState();
+    } else {
+      _timerController.pause();
+    }
+  }
+
+  void _listenTimerState() {
+    var status = TrackStatus.getStatus(_timerController.state.value);
+
+    if (_stopped && status == TrackStatus.PAUSED) {
+      status = TrackStatus.STOPPED;
+    }
+    startButtonText = status.buttonText;
+    notifyListeners();
+
+    _timeTrackService.saveTime(
+        trackedSeconds: _timerController.remaining.value.duration.inSeconds,
+        trackStatus: status,
+        continueRunning: _continue_running);
   }
 }

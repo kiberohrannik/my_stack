@@ -1,10 +1,10 @@
-import 'package:my_stack/time_tracker/data/time_shot.dart';
+import '../data/track_status.dart';
 
 abstract class TimeTrackService {
 
   Duration getTrackedTime();
 
-  String getStatus();
+  TrackStatus getStatus();
 
   void saveStart();
 
@@ -14,8 +14,12 @@ abstract class TimeTrackService {
 
   void saveStop(int trackedSeconds);
 
-  void saveTime(int trackedSeconds);
+  Future<void> saveStateWhenRunning(int trackedSeconds);
+
+  void saveTime({required int trackedSeconds, required TrackStatus trackStatus});
 
   //debug purpose only
   void reset();
+
+  void printSmth(int trackedSeconds);
 }

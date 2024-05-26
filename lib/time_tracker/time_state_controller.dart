@@ -1,80 +1,75 @@
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:my_stack/time_tracker/data/track_status.dart';
+import 'package:my_stack/time_tracker/service/hive_time_track_service.dart';
 import 'package:my_stack/time_tracker/service/time_track_service.dart';
 
 class TrackTimeController extends ChangeNotifier {
 
-  String startButtonText = "Start";
-
-  final TimeTrackService _timeTrackService;
+  final HiveTimeTrackService _timeTrackService;
   final CustomTimerController _timerController;
-  bool _stopped = true;
 
-  CustomTimerState _customTimerState = CustomTimerState.reset;
-  int _trackedSeconds = 0;
+  bool _stopped = true;
+  // late String startButtonText;
+  late String startButtonText = TrackStatus.STOPPED.buttonText;
 
 
   TrackTimeController(this._timerController, this._timeTrackService) {
-    _timerController.begin = _timeTrackService.getTrackedTime();
-
-
-    if(_timeTrackService.getStatus() == TrackStatus.RUNNING.name) {
-      startButtonText = "Pause";
-    }
-
-    if(_timeTrackService.getStatus() == TrackStatus.PAUSED.name) {
-      startButtonText = "Resume";
-    }
-
 
     _timerController.state.addListener(() {
-      _customTimerState = _timerController.state.value; // 👉 CustomTimerState.paused
+      TrackStatus trackStatus = TrackStatus.getStatus(_timerController.state.value);
+      startButtonText = trackStatus.buttonText;
+      notifyListeners();
 
-      //TODO refactor it
-      _trackedSeconds = int.parse(_timerController.remaining.value.seconds);
-      _timeTrackService.saveTime(int.parse(_timerController.remaining.value.seconds));// 👉 12h
+      _timeTrackService.saveTime(
+          trackedSeconds: _timerController.remaining.value.duration.inSeconds,
+          trackStatus: trackStatus
+      );
     });
+
+
+    _timerController.begin = _timeTrackService.getTrackedTime();
+
+    if(_timeTrackService.getStatus() == TrackStatus.RUNNING) {
+      print("bgtenbgtebngt-----------------");
+      //FIXME Here is the problem
+      _timerController.remaining.value = CustomTimerRemainingTime(duration: _timerController.begin);
+      _timerController.start();
+      _stopped = false;
+    }
   }
 
-
-  update() {
-    if(_stopped) {
-      _timerController.reset();
+  update() async {
+    if (_stopped) {
       //TODO create here protection from misclick
-      _timeTrackService.reset();
+
+      _timerController.reset();
+      await _timeTrackService.reset();
 
       _timerController.begin = _timeTrackService.getTrackedTime();
       _timerController.start();
-      _timeTrackService.saveStart();
-
+      await _timeTrackService.saveStart();
       _stopped = false;
-      startButtonText = "Pause";
 
-    } else if(startButtonText == "Pause") {
-      startButtonText = "Resume";
 
-      _timeTrackService.savePause(_trackedSeconds);
+    } else if (startButtonText == TrackStatus.RUNNING.buttonText) {
       _timerController.pause();
 
-    } else if(startButtonText == "Resume") {
-      startButtonText = "Pause";
-
+    } else if (startButtonText == TrackStatus.PAUSED.buttonText) {
       _timerController.begin = _timeTrackService.getTrackedTime();
       _timerController.start();
-      _timeTrackService.saveResume();
     }
 
     notifyListeners();
   }
 
   stop() {
-    startButtonText = "Start";
-    notifyListeners();
-
     _timerController.pause();
-    _timeTrackService.saveStop(_trackedSeconds);
-
     _stopped = true;
+
+    // _timeTrackService.sa(trackedSeconds);
+
+    startButtonText = TrackStatus.STOPPED.buttonText;
+    notifyListeners();
   }
 }

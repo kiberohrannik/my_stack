@@ -21,7 +21,7 @@ Future<void> main() async {
     ..registerAdapter(TrackStatusAdapter());
 
   //TODO refactor initStorage
-  HiveTimeTrackService.initStorage();
+  await HiveTimeTrackService.initStorage();
 
   await Firebase.initializeApp(
       options: const FirebaseOptions(

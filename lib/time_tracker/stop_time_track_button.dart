@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_stack/time_tracker/time_state_controller.dart';
 
@@ -43,6 +44,9 @@ class _StopTimeTrackButtonState extends State<StopTimeTrackButton> {
           widget.stopStyleController.update(MaterialState.pressed, true);
 
           widget.trackTimeController.stop();
+
+          //TODO just for testing, remove afterwards this call
+          SystemNavigator.pop();
         },
         child: Text("Finish")
     );

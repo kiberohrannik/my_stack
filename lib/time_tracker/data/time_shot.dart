@@ -10,14 +10,13 @@ class TimeShot extends HiveObject {
   DateTime start = DateTime.timestamp();
 
   @HiveField(1)
-  String duration = '0';
+  DateTime stop = DateTime.timestamp();
 
   @HiveField(2)
+  int duration = 0;
+
+  @HiveField(3)
   TrackStatus status = TrackStatus.STOPPED;
-
-  // @HiveField(3)
-  // DateTime stop = DateTime.timestamp();
-
 
   TimeShot(this.start, this.status);
 }

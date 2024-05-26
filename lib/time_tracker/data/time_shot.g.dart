@@ -18,19 +18,23 @@ class TimeShotAdapter extends TypeAdapter<TimeShot> {
     };
     return TimeShot(
       fields[0] as DateTime,
-      fields[2] as TrackStatus,
-    )..duration = fields[1] as String;
+      fields[3] as TrackStatus,
+    )
+      ..stop = fields[1] as DateTime
+      ..duration = fields[2] as int;
   }
 
   @override
   void write(BinaryWriter writer, TimeShot obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.start)
       ..writeByte(1)
-      ..write(obj.duration)
+      ..write(obj.stop)
       ..writeByte(2)
+      ..write(obj.duration)
+      ..writeByte(3)
       ..write(obj.status);
   }
 

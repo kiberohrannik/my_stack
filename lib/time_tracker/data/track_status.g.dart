@@ -19,6 +19,10 @@ class TrackStatusAdapter extends TypeAdapter<TrackStatus> {
         return TrackStatus.RUNNING;
       case 2:
         return TrackStatus.PAUSED;
+      case 3:
+        return TrackStatus.FINISHED;
+      case 4:
+        return TrackStatus.RUNNING_CLOSED;
       default:
         return TrackStatus.STOPPED;
     }
@@ -35,6 +39,12 @@ class TrackStatusAdapter extends TypeAdapter<TrackStatus> {
         break;
       case TrackStatus.PAUSED:
         writer.writeByte(2);
+        break;
+      case TrackStatus.FINISHED:
+        writer.writeByte(3);
+        break;
+      case TrackStatus.RUNNING_CLOSED:
+        writer.writeByte(4);
         break;
     }
   }

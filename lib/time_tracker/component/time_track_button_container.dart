@@ -10,8 +10,8 @@ class TimeTrackButtonContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(15),
-      height: 125,
-      width: 125,
+      height: 130,
+      width: 130,
       padding: const EdgeInsets.all(10),
 
       decoration: BoxDecoration(

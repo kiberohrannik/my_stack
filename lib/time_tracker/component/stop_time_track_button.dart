@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_stack/time_tracker/component/finish_tracking_dialog.dart';
 import 'package:my_stack/time_tracker/time_state_controller.dart';
+import 'package:provider/provider.dart';
 
 class StopTimeTrackButton extends StatefulWidget {
 
@@ -28,7 +29,7 @@ class _StopTimeTrackButtonState extends State<StopTimeTrackButton> {
   Widget build(BuildContext context) {
     return ElevatedButton(
         style: ButtonStyle(
-          textStyle: MaterialStateProperty.all(GoogleFonts.jetBrainsMono(color: Color(0xFF7800AE))),
+          textStyle: MaterialStateProperty.all(GoogleFonts.jetBrainsMono(color: const Color(0xFF7800AE))),
           backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
             if(states.contains(MaterialState.pressed)) {
               return Colors.deepOrange.shade300;
@@ -37,16 +38,20 @@ class _StopTimeTrackButtonState extends State<StopTimeTrackButton> {
           }),
         ),
         statesController: widget.stopStyleController,
-        onPressed: () {
-          widget.startStyleController.update(MaterialState.pressed, false);
-          widget.stopStyleController.update(MaterialState.pressed, true);
-
-          widget.trackTimeController.stop();
-
-          //TODO just for testing, remove afterwards this call
-          // SystemNavigator.pop();
+        onLongPress: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return FinishTrackingDialog(
+                  startStyleController: widget.startStyleController,
+                  stopStyleController: widget.stopStyleController,
+                  trackTimeController: widget.trackTimeController);
+            },
+          );
         },
-        child: Text("Finish")
+        onPressed: () => {},
+        // child: const Text("Finish")
+        child: Text(context.watch<TrackTimeController>().stopButtonText)
     );
   }
 }

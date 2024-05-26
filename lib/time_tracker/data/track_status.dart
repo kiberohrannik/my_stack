@@ -8,22 +8,23 @@ part 'track_status.g.dart';
 enum TrackStatus {
 
   @HiveField(0)
-  stopped("Start", CustomTimerState.reset),
+  stopped("Start", "Stopped", CustomTimerState.reset),
 
   @HiveField(1)
-  running("Pause", CustomTimerState.counting),
+  running("Pause", "Stop", CustomTimerState.counting),
 
   @HiveField(2)
-  paused("Resume", CustomTimerState.paused),
+  paused("Resume", "Stop", CustomTimerState.paused),
 
   @HiveField(3)
-  finished("Resume", CustomTimerState.finished);
+  finished("Resume", "Stop", CustomTimerState.finished);
 
 
-  final String buttonText;
+  final String startButtonText;
+  final String stopButtonText;
   final CustomTimerState timerState;
 
-  const TrackStatus(this.buttonText, this.timerState);
+  const TrackStatus(this.startButtonText, this.stopButtonText, this.timerState);
 
 
   static TrackStatus getStatus(CustomTimerState timerState) {

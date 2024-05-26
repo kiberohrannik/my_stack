@@ -41,7 +41,8 @@ class _StartTimeTrackButtonState extends State<StartTimeTrackButton> {
           }),
         ),
         statesController: widget.startStyleController,
-        onPressed: () {
+        onPressed: () => {},
+        onLongPress: () {
           widget.stopStyleController.update(MaterialState.pressed, false);
           widget.startStyleController.update(MaterialState.pressed, true);
 

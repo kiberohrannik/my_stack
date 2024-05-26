@@ -11,6 +11,7 @@ class TrackTimeController extends ChangeNotifier {
   bool _stopped = true;
   bool _continueRunning = false;
   late String startButtonText;
+  late String stopButtonText = "Stop";
 
 
   TrackTimeController(this._timerController, this._timeTrackService) {
@@ -19,7 +20,7 @@ class TrackTimeController extends ChangeNotifier {
     //Resolve initial state of timer when opening app
     var status = _timeTrackService.getStatus();
 
-    _updateStartButtonText(status);
+    _updateButtonsText(status);
     _timerController.begin = _timeTrackService.getTime();
 
     if(status == TrackStatus.paused) {
@@ -47,11 +48,11 @@ class TrackTimeController extends ChangeNotifier {
       _timeTrackService.saveStart();
       _timerController.start();
 
-    } else if (startButtonText == TrackStatus.running.buttonText) {
+    } else if (startButtonText == TrackStatus.running.startButtonText) {
       _resetStopState();
       _timerController.pause();
 
-    } else if (startButtonText == TrackStatus.paused.buttonText) {
+    } else if (startButtonText == TrackStatus.paused.startButtonText) {
       _timerController.begin = _timeTrackService.getTime();
       _resetStopState();
       _timerController.start();
@@ -62,7 +63,7 @@ class TrackTimeController extends ChangeNotifier {
     _continueRunning = false;
     _stopped = true;
 
-    _updateStartButtonText(TrackStatus.stopped);
+    _updateButtonsText(TrackStatus.stopped);
 
     if(_timerController.state.value == CustomTimerState.paused) {
       _listenTimerState();
@@ -79,7 +80,7 @@ class TrackTimeController extends ChangeNotifier {
       status = TrackStatus.stopped;
     }
 
-    _updateStartButtonText(status);
+    _updateButtonsText(status);
 
     _timeTrackService.saveTime(
         seconds: _timerController.remaining.value.duration.inSeconds,
@@ -87,8 +88,9 @@ class TrackTimeController extends ChangeNotifier {
         continueRunning: _continueRunning);
   }
 
-  void _updateStartButtonText(TrackStatus status) {
-    startButtonText = status.buttonText;
+  void _updateButtonsText(TrackStatus status) {
+    startButtonText = status.startButtonText;
+    stopButtonText = status.stopButtonText;
     notifyListeners();
   }
   

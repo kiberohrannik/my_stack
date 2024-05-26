@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:my_stack/styles/dark-theme.dart';
 import 'package:my_stack/styles/font_style_mixin.dart';
 import 'package:my_stack/time_tracker/service/history_service.dart';
-import 'package:my_stack/time_tracker/stop_time_track_button.dart';
-import 'package:my_stack/time_tracker/time_track_button_container.dart';
-import 'package:my_stack/time_tracker/timer.dart';
-import 'package:my_stack/time_tracker/track_time_history_item.dart';
+import 'package:my_stack/time_tracker/component/stop_time_track_button.dart';
+import 'package:my_stack/time_tracker/component/time_track_button_container.dart';
+import 'package:my_stack/time_tracker/component/timer.dart';
+import 'package:my_stack/time_tracker/component/track_time_history_item.dart';
 
-import 'start_time_track_button.dart';
+import 'component/start_time_track_button.dart';
 import 'time_state_controller.dart';
 
 class TimeTrackView extends StatefulWidget {

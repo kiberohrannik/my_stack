@@ -2,24 +2,15 @@ import '../data/track_status.dart';
 
 abstract class TimeTrackService {
 
-  Duration getTrackedTime();
+  void saveStart();
+
+  void reset();
+
+  Duration getTime();
+
+  void saveTime({required int seconds, required TrackStatus trackStatus, required bool continueRunning});
 
   TrackStatus getStatus();
 
-  void saveStart();
-
-  void savePause(int trackedSeconds);
-
-  void saveResume();
-
-  void saveStop(int trackedSeconds);
-
-  Future<void> saveStateWhenRunning(int trackedSeconds);
-
-  void saveTime({required int trackedSeconds, required TrackStatus trackStatus});
-
-  //debug purpose only
-  void reset();
-
-  void printSmth(int trackedSeconds);
+  void saveStatus(TrackStatus trackStatus);
 }

@@ -4,77 +4,68 @@ import 'package:my_stack/time_tracker/service/time_track_service.dart';
 import '../data/time_shot.dart';
 import '../data/track_status.dart';
 
-class HiveTimeTrackService {
-  static const String timeTrackKey = 'time_shot';
+class HiveTimeTrackService extends TimeTrackService {
+  static const String timeKey = 'time_shot';
   static Box<TimeShot>? _box;
 
   static Future<void> initStorage() async {
     _box = await Hive.openBox("time_track");
   }
 
-  Duration getTrackedTime() {
-    var timeShot = _get();
+  @override
+  void saveStart() async => await _box?.put(timeKey, TimeShot(DateTime.timestamp(), TrackStatus.RUNNING));
 
-    if(timeShot != null && timeShot.status == TrackStatus.RUNNING) {
-      assert (_box?.values.isNotEmpty ?? false);
+  @override
+  void reset() {
+    var time = _get();
+    time?.initialStart = DateTime.timestamp();
+    time?.countingStart = DateTime.timestamp();
+    time?.duration = 0;
+    time?.status = TrackStatus.STOPPED;
+    _save(time);
+  }
 
-      timeShot.duration = DateTime.timestamp().difference(timeShot.countingStart).inSeconds;
-      timeShot.status = TrackStatus.RUNNING;
-      _saveDuration(timeShot);
-      return Duration(seconds:timeShot.duration);
+  @override
+  Duration getTime() {
+    var time = _get();
+    if(time != null && time.status == TrackStatus.RUNNING) {
+      time.duration = DateTime.timestamp().difference(time.countingStart).inSeconds;
+      _save(time);
     }
-
-    return Duration(seconds: _get()?.duration ?? 0);
+    return Duration(seconds: time?.duration ?? 0);
   }
 
-  Future<void> saveStart() async {
-    var timeShot = TimeShot(DateTime.timestamp(), TrackStatus.RUNNING);
-    timeShot.countingStart = DateTime.timestamp();
-    return await _box?.put(timeTrackKey, timeShot);
-  }
-
-  Future<void>? saveStatus(TrackStatus trackStatus) async {
-    var timeShot = _get();
-    timeShot?.status = trackStatus;
-    return await timeShot?.save();
-  }
-
-  Future<void> reset() {
-    var timeShot = _get();
-    timeShot?.initialStart = DateTime.timestamp();
-    timeShot?.countingStart = DateTime.timestamp();
-    timeShot?.duration = 0;
-    timeShot?.status = TrackStatus.STOPPED;
-
-    return timeShot?.save() ?? Future.value();
-  }
-
-  void saveTime({required int trackedSeconds, required TrackStatus trackStatus, required bool continueRunning}) async {
-    var timeShot = _get();
+  @override
+  void saveTime({required int seconds, required TrackStatus trackStatus, required bool continueRunning}) async {
+    var time = _get();
 
     if(trackStatus == TrackStatus.RUNNING && !continueRunning) {
-      timeShot?.countingStart = DateTime.timestamp();
-      print("countingStart ${timeShot?.countingStart}");
+      time?.countingStart = DateTime.timestamp();
     }
 
-    timeShot?.duration = trackedSeconds;
-    timeShot?.status = trackStatus;
-    timeShot?.stop = DateTime.timestamp();
-    return await timeShot?.save();
+    time?.duration = seconds;
+    time?.status = trackStatus;
+    time?.stop = DateTime.timestamp();
+    _save(time);
   }
 
+  @override
   TrackStatus getStatus() => _get()?.status ?? TrackStatus.STOPPED;
+
+  @override
+  void saveStatus(TrackStatus trackStatus) {
+    var time = _get();
+    time?.status = trackStatus;
+    _save(time);
+  }
 
 
   TimeShot? _get() {
     if(_box == null) {
       throw Exception('Null hive box!');
     }
-
-    return  _box?.get(timeTrackKey);
+    return _box?.get(timeKey);
   }
-
-  void _saveDuration(TimeShot timeShot) async {
-    return await _box?.put(timeTrackKey, timeShot);
-  }
+  
+  Future<void> _save(TimeShot? timeShot) async => await timeShot?.save();
 }

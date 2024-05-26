@@ -14,37 +14,32 @@ class TrackStatusAdapter extends TypeAdapter<TrackStatus> {
   TrackStatus read(BinaryReader reader) {
     switch (reader.readByte()) {
       case 0:
-        return TrackStatus.STOPPED;
+        return TrackStatus.stopped;
       case 1:
-        return TrackStatus.RUNNING;
+        return TrackStatus.running;
       case 2:
-        return TrackStatus.PAUSED;
+        return TrackStatus.paused;
       case 3:
-        return TrackStatus.FINISHED;
-      case 4:
-        return TrackStatus.RUNNING_CLOSED;
+        return TrackStatus.finished;
       default:
-        return TrackStatus.STOPPED;
+        return TrackStatus.stopped;
     }
   }
 
   @override
   void write(BinaryWriter writer, TrackStatus obj) {
     switch (obj) {
-      case TrackStatus.STOPPED:
+      case TrackStatus.stopped:
         writer.writeByte(0);
         break;
-      case TrackStatus.RUNNING:
+      case TrackStatus.running:
         writer.writeByte(1);
         break;
-      case TrackStatus.PAUSED:
+      case TrackStatus.paused:
         writer.writeByte(2);
         break;
-      case TrackStatus.FINISHED:
+      case TrackStatus.finished:
         writer.writeByte(3);
-        break;
-      case TrackStatus.RUNNING_CLOSED:
-        writer.writeByte(4);
         break;
     }
   }

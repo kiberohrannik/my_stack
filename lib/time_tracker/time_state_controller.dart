@@ -22,12 +22,12 @@ class TrackTimeController extends ChangeNotifier {
     _updateStartButtonText(status);
     _timerController.begin = _timeTrackService.getTime();
 
-    if(status == TrackStatus.PAUSED) {
+    if(status == TrackStatus.paused) {
       _stopped = false;
     }
 
 
-    if(status == TrackStatus.RUNNING) {
+    if(status == TrackStatus.running) {
       _stopped = false;
       _continueRunning = true;
       _timerController.remaining.value = CustomTimerRemainingTime(duration: _timerController.begin);
@@ -47,11 +47,11 @@ class TrackTimeController extends ChangeNotifier {
       _timeTrackService.saveStart();
       _timerController.start();
 
-    } else if (startButtonText == TrackStatus.RUNNING.buttonText) {
+    } else if (startButtonText == TrackStatus.running.buttonText) {
       _resetStopState();
       _timerController.pause();
 
-    } else if (startButtonText == TrackStatus.PAUSED.buttonText) {
+    } else if (startButtonText == TrackStatus.paused.buttonText) {
       _timerController.begin = _timeTrackService.getTime();
       _resetStopState();
       _timerController.start();
@@ -62,7 +62,7 @@ class TrackTimeController extends ChangeNotifier {
     _continueRunning = false;
     _stopped = true;
 
-    _updateStartButtonText(TrackStatus.STOPPED);
+    _updateStartButtonText(TrackStatus.stopped);
 
     if(_timerController.state.value == CustomTimerState.paused) {
       _listenTimerState();
@@ -75,8 +75,8 @@ class TrackTimeController extends ChangeNotifier {
   void _listenTimerState() {
     var status = TrackStatus.getStatus(_timerController.state.value);
 
-    if (_stopped && status == TrackStatus.PAUSED) {
-      status = TrackStatus.STOPPED;
+    if (_stopped && status == TrackStatus.paused) {
+      status = TrackStatus.stopped;
     }
 
     _updateStartButtonText(status);

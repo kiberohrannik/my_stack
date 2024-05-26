@@ -13,7 +13,7 @@ class HiveTimeTrackService extends TimeTrackService {
   }
 
   @override
-  void saveStart() async => await _box?.put(timeKey, TimeShot(DateTime.timestamp(), TrackStatus.RUNNING));
+  void saveStart() async => await _box?.put(timeKey, TimeShot(DateTime.timestamp(), TrackStatus.running));
 
   @override
   void reset() {
@@ -21,14 +21,14 @@ class HiveTimeTrackService extends TimeTrackService {
     time?.initialStart = DateTime.timestamp();
     time?.countingStart = DateTime.timestamp();
     time?.duration = 0;
-    time?.status = TrackStatus.STOPPED;
+    time?.status = TrackStatus.stopped;
     _save(time);
   }
 
   @override
   Duration getTime() {
     var time = _get();
-    if(time != null && time.status == TrackStatus.RUNNING) {
+    if(time != null && time.status == TrackStatus.running) {
       time.duration = DateTime.timestamp().difference(time.countingStart).inSeconds;
       _save(time);
     }
@@ -39,7 +39,7 @@ class HiveTimeTrackService extends TimeTrackService {
   void saveTime({required int seconds, required TrackStatus trackStatus, required bool continueRunning}) async {
     var time = _get();
 
-    if(trackStatus == TrackStatus.RUNNING && !continueRunning) {
+    if(trackStatus == TrackStatus.running && !continueRunning) {
       time?.countingStart = DateTime.timestamp();
     }
 
@@ -50,7 +50,7 @@ class HiveTimeTrackService extends TimeTrackService {
   }
 
   @override
-  TrackStatus getStatus() => _get()?.status ?? TrackStatus.STOPPED;
+  TrackStatus getStatus() => _get()?.status ?? TrackStatus.stopped;
 
   @override
   void saveStatus(TrackStatus trackStatus) {

@@ -8,19 +8,16 @@ part 'track_status.g.dart';
 enum TrackStatus {
 
   @HiveField(0)
-  STOPPED("Start", CustomTimerState.reset),
+  stopped("Start", CustomTimerState.reset),
 
   @HiveField(1)
-  RUNNING("Pause", CustomTimerState.counting),
+  running("Pause", CustomTimerState.counting),
 
   @HiveField(2)
-  PAUSED("Resume", CustomTimerState.paused),
+  paused("Resume", CustomTimerState.paused),
 
   @HiveField(3)
-  FINISHED("Resume", CustomTimerState.finished),
-
-  @HiveField(4)
-  RUNNING_CLOSED("Pause", CustomTimerState.counting);
+  finished("Resume", CustomTimerState.finished);
 
 
   final String buttonText;

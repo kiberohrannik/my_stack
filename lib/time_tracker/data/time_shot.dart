@@ -16,7 +16,7 @@ class TimeShot extends HiveObject {
   int duration = 0;
 
   @HiveField(3)
-  TrackStatus status = TrackStatus.STOPPED;
+  TrackStatus status = TrackStatus.stopped;
 
   @HiveField(4)
   DateTime countingStart = DateTime.timestamp();

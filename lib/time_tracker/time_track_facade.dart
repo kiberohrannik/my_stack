@@ -1,8 +1,5 @@
 import 'package:custom_timer/custom_timer.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_stack/time_tracker/data/time_shot.dart';
-import 'package:my_stack/time_tracker/data/track_status.dart';
 import 'package:my_stack/time_tracker/service/history_service.dart';
 import 'package:my_stack/time_tracker/service/hive_time_track_service.dart';
 import 'package:my_stack/time_tracker/time_track_view.dart';
